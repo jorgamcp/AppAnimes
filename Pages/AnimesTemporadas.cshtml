@@ -1,0 +1,179 @@
+@*
+    Archivo Razor cshtml
+
+    Define como se muestra la interfaz de usuario UI de la aplicacion
+    usamos un Modelo que es la union de dos Modelos (Tabla animestest como tabla temporadadasTest )
+    para mostrarlo como un join conjunto
+
+
+
+    El archivo que se envia al cliente es un archivo html, generado por asp net core
+
+    recorremos la lista de Animes y lo mostramos.
+    animesTemporadasViewModels es una Lista y el indice [0] contiene el nombre de las columnas de la tabla de la base de
+    datos que junto con el modelo en la propiedad DisplayName
+    se muestra de manera mas amigable al usuario
+
+    DisplayFor muestra el contenido de la lista
+*@
+
+
+@page
+@model AnimesTemporadasModel
+@{
+    ViewData["Title"] = "Lista Animes Temporadas";
+
+}
+
+<div class="row d-flex justify-content-end">
+
+    <div class="col-6">
+        <h4>Lista AnimesTemporadas.cshtml</h4>
+    </div>
+    <div class="col-6 text-right">
+        <button type="button" class="btn  btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"
+            data-backdrop="static" data-keyboard="false">Añadir</button>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-center">
+
+    <div class="col-6">
+        <p> Los Animes que tienen un guion - <b>No tienen temporadas</b></p>
+    </div>
+
+</div>
+@*
+    Dialogo Modal Para insertar Anime
+*@
+<div id="exampleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Añadir Nuevo Anime</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*
+    FIN DIALOGO MODAL
+*@
+<section class="row ">
+
+    <table class="table  table-striped  " id="tablaAnimes">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].id_anime)
+                </th>
+
+
+
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].id_temporada)
+                </th>
+
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].NombreAnimeTemporada)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].genero)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].nombreEnIngles)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].estado)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].tipo)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].temporada_estreno)
+                </th>
+                <th scope="col" colspan="3" class="text-center">
+                    Acciones
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animetemporadasjuntos in Model.animesTemporadasViewModels)
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.id_anime)
+                    </td>
+                    @if (animetemporadasjuntos.id_temporada == null)
+                    {
+                        <td>
+                            <i>-</i>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => animetemporadasjuntos.id_temporada)
+                        </td>
+                    }
+
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.NombreAnimeTemporada)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.genero)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.nombreEnIngles)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.estado)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.tipo)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => animetemporadasjuntos.temporada_estreno)
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                    </td>
+
+                    <td>
+                        <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+                    </td>
+
+                    <td>
+                        <a asp-page="/Historial" asp-route-id="@animetemporadasjuntos.id_anime"
+                            class="btn btn-sm btn-secondary">Ver Histórico</a>
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+
+</section>
