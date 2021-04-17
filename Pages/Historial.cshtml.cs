@@ -48,7 +48,7 @@ namespace AppAnimes.Pages
                                         
                 //                    }).AsNoTracking().ToListAsync();
             
-              
+               // BUG: Añadir el nombre de la temporada.
                 historialIQ = await(
                     from h in _context.Historial
                     where h.IdAnime == id 
