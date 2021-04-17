@@ -1,12 +1,89 @@
 ﻿@page "{id:int?}"
-@model AppAnimes.Models.HistorialViewModel
+@model Pages.HistorialModel
 @{
-    
+
 }
 
 
 
-<h3>Historial</h3>
+<h3>Historial </h3>
 
-<p>Historial del anime @Html.DisplayFor(model => model.NombreAnimeTemporada) </p>
-@* Test *@
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(h => h.historialViewModel[0].id_historial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(h => h.historialViewModel[0].id_temp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(h => h.historialViewModel[0].NombreAnimeTemporada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(h => h.historialViewModel[0].FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(h => h.historialViewModel[0].FechaFin)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var registroHistorial in Model.historialViewModel){
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => registroHistorial.id_historial)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => registroHistorial.id_temp)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada + " ") 
+                </td>
+                <td>
+                    @Html.DisplayFor(m => registroHistorial.FechaInicio) 
+                </td>
+                <td>
+                    @Html.DisplayFor(m => registroHistorial.FechaFin) 
+                </td>
+            </tr>
+            }        
+    </tbody>
+</table>
+
+<a asp-page="AnimesTemporadas" class="btn btn-primary">Volver</a>
+
+@*
+Este es el que semi-funciona
+ @foreach(var registroHistorial in Model.historialViewModel){
+    <p>Id Historial @Html.DisplayFor(m => registroHistorial.id_historial) </p>
+    <p>Historial del anime @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada) </p>
+    <p>Historial del anime @Html.DisplayFor(m => registroHistorial.FechaInicio) </p>
+    <p>Historial del anime @Html.DisplayFor(m => registroHistorial.FechaFin) </p>
+
+    } *@
+
+
+@* <p>Historial del anime @Html.DisplayFor(m => m.historialViewModel[0].id_historial) </p>
+    <p>Historial del anime @Html.DisplayFor(m => m.historialViewModel[0].NombreAnimeTemporada) </p>
+    <p>Historial del anime @Html.DisplayFor(m => m.historialViewModel[0].FechaInicio) </p>
+    <p>Historial del anime @Html.DisplayFor(m => m.historialViewModel[0].FechaFin) </p>
+*@
+
+
+
+
+
+@*
+    <p class="d-inline-block">Fecha y Hora Inicio : @Html.DisplayFor(model => model.historialViewModel[0].FechaInicio)</p>
+    @if (Model.historialViewModel[0].FechaFin == null)
+    {
+    <p class="d-inline-block">Fecha Fin : Sin fecha de finalización. @Html.DisplayFor(model =>
+    model.historialViewModel[0].NombreAnimeTemporada) actualmente esta en <b>ESTADO VIENDO</b></p>
+
+    }
+    else
+    {
+    <p class="d-inline-block">Fecha Fin : @Html.DisplayFor(model => model.historialViewModel[0].FechaFin)</p>
+
+    } *@

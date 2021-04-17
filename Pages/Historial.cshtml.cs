@@ -14,7 +14,8 @@ namespace AppAnimes.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly AppAnimesDBContext _context;
         public IList<HistorialViewModel> historialViewModel { get; set; }
-
+        private List<HistorialViewModel> historialIQ;
+        
         public HistorialModel(ILogger<IndexModel> logger, AppAnimesDBContext context)
         {
             _logger = logger;
@@ -22,39 +23,55 @@ namespace AppAnimes.Pages
         }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            // var animesIQ
-            //          = await (
-            //             from a in _context.Animestests 
-            //             join h in _context.Historialtests on a equals h.IdAnimeNavigation into hanimes
-            //             join t in _context.Temporadastests on a equals t.IdAnimeNavigation into tanimes 
-            //             from ha in hanimes.DefaultIfEmpty()
-            //          select new HistorialViewModel(){
-            //              id_historial = ha.IdHistorial,
-            //              id_temp = ha.IdTemp,
-            //              NombreAnimeTemporada = a.Nombre + " " + ha.
-
-            //          }).ToListAsync();
-            if(id == null){
+            
+            if (id == null)
+            {
                 return NotFound();
             }
-            var historialIQ =
-                    await (
-                        from h in _context.Historial
-                        join a in _context.Animes on h.IdAnime equals a.IdAnime into HistorialAnimes
-                        join t in _context.Temporadas on h.IdAnime equals t.IdAnime into HistorialAnimesTemp
-                        from hat in HistorialAnimesTemp.DefaultIfEmpty()
-                        select new HistorialViewModel()
-                        {
-                            id_historial = h.IdHistorial,
-                            id_temp = h.IdTemp,
-                            NombreAnimeTemporada = hat.IdAnimeNavigation.Nombre + " " + hat.NombreTemporada,
-                            FechaInicio = h.FechaInicio,
-                            FechaFin = h.FechaFin
-                        }
-                    ).ToListAsync();
+            else
+            {
+
+               
+                //  historialIQ = await (
+                //                    from h in _context.Historial
+                //                    join t in _context.Temporadas on h.IdAnimeNavigation.IdAnime equals t.IdAnime
+                //                    join a in _context.Animes on h.IdAnime equals a.IdAnime  into hat
+                //                   from resultado in hat.DefaultIfEmpty()
+                //                    where h.IdAnime == id 
+                //                    select new HistorialViewModel()
+                //                    {
+                //                        id_historial = h.IdHistorial,
+                //                        id_temp = h.IdTemp,
+                //                        NombreAnimeTemporada = h.IdAnimeNavigation.Nombre + " " + t.NombreTemporada,
+                //                        FechaInicio = h.FechaInicio,
+                //                        FechaFin = h.FechaFin,
+                                        
+                //                    }).AsNoTracking().ToListAsync();
             
+              
+                historialIQ = await(
+                    from h in _context.Historial
+                    where h.IdAnime == id 
+                    select new HistorialViewModel{
+                        id_historial = h.IdHistorial,
+                        id_temp = h.IdTemp,
+                        NombreAnimeTemporada = h.IdAnimeNavigation.Nombre,
+                        FechaInicio  = h.FechaInicio,
+                        FechaFin = h.FechaFin
+                    }).ToListAsync();
+                
+
+
+
+            }
+
+ 
+
             historialViewModel = historialIQ;
             return Page();
         }
+
+
     }
 }
+

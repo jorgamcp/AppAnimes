@@ -60,34 +60,12 @@ namespace AppAnimes.Pages
 
                               }).ToListAsync();
 
-            
+            _logger.LogInformation(animesIQ.ToList().ToString());
             animesTemporadasViewModels = animesIQ;
 
 
 
-            /* var animesIQ
-                      = await (from a in _context.Animestests
-                               join t in _context.Temporadastests
-                               on a.IdAnime equals t.IdAnime
-                               select new AnimesTemporadasViewModel()
-                               {
-                                   id_anime = a.IdAnime,
-                                   id_temporada = t.IdTemporada,
-                                   NombreAnimeTemporada = a.Nombre + " " + t.NombreTemporada,
-                                   genero = a.Genero,
-                                   nombreEnIngles = a.NombreEnIngles,
-                                   estado = t.Estado,
-                                   tipo = t.Tipo,
-                                   temporada_estreno = t.TemporadaEstreno
-
-                               }).ToListAsync();
-
-
-             animesTemporadasViewModels = animesIQ;
-             */
-
-
-
+  
 
 
 
