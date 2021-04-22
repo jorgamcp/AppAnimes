@@ -9,7 +9,7 @@ namespace AppAnimes.Models
         [DisplayName("Id Historial")]
         public int? id_historial { get; set; }
         [DisplayName("Numero Temporada")]
-        public int id_temp { get; set; }
+        public int? id_temp { get; set; }
 
         [DisplayName("Nombre (Anime+Temporada)")]
         public string NombreAnimeTemporada { get; set; }

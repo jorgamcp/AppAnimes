@@ -29,7 +29,15 @@
         </tr>
     </thead>
     <tbody>
+        @if(Model.historialViewModel.ToList().Count == 0){
+            <tr col=5>
+                <td colspan="5" class="text-center"> No Hay Registros</td>
+            </tr>
+        }
+        else{
+
         @foreach(var registroHistorial in Model.historialViewModel){
+            
             <tr>
                 <td>
                     @Html.DisplayFor(m => registroHistorial.id_historial)
@@ -38,7 +46,7 @@
                     @Html.DisplayFor(m => registroHistorial.id_temp)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada + " ") 
+                    @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada) 
                 </td>
                 <td>
                     @Html.DisplayFor(m => registroHistorial.FechaInicio) 
@@ -47,7 +55,8 @@
                     @Html.DisplayFor(m => registroHistorial.FechaFin) 
                 </td>
             </tr>
-            }        
+            }
+        }        
     </tbody>
 </table>
 

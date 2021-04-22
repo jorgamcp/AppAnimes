@@ -30,6 +30,7 @@ namespace AppAnimes
         {
             services.AddRazorPages();
             services.AddDbContext<AppAnimesDBContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True"));
+            
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
 

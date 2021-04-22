@@ -60,7 +60,7 @@ namespace AppAnimes.Pages
 
                               }).ToListAsync();
 
-            _logger.LogInformation(animesIQ.ToList().ToString());
+            // _logger.LogInformation(animesIQ.ToList().ToString());
             animesTemporadasViewModels = animesIQ;
 
 

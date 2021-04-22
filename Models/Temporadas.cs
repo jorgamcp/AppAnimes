@@ -15,5 +15,6 @@ namespace AppAnimes.Models
         public string TemporadaEstreno { get; set; }
 
         public virtual Animes IdAnimeNavigation { get; set; }
+        public virtual Temporadas IdTemporadaNavigation { get; set; }
     }
 }
