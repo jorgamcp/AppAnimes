@@ -31,36 +31,21 @@ namespace AppAnimes.Pages
             else
             {
 
-                // Esta consulta funciona lo unico que no saca el nombre de la temporada.
-                // historialIQ = await (
-                //                   from h in _context.Historial
-                                  
-                //                   where h.IdAnime == id
-                //                   select new HistorialViewModel()
-                //                   {
-                //                       id_historial = h.IdHistorial,
-                //                       id_temp = h.IdTemp,
-                //                       NombreAnimeTemporada = h.IdAnimeNavigation.Nombre + " ",
-                //                       FechaInicio = h.FechaInicio,
-                //                       FechaFin = h.FechaFin,
 
-                //                   }).AsNoTracking().ToListAsync();
 
-                // BUG: Añadir el nombre de la temporada.
+                historialIQ = await (
+                               from historial in _context.Historial
+                               where historial.IdAnime == id
+                               select new HistorialViewModel()
+                               {
+                                   id_historial = historial.IdHistorial,
+                                   id_temp = historial.IdTemp,
+                                   NombreAnimeTemporada = historial.IdAnimeNavigation.Nombre + " " + historial.IdTemporadaNavigation.NombreTemporada,
+                                   FechaInicio = historial.FechaInicio,
+                                   FechaFin = historial.FechaFin,
 
-                   historialIQ = await (
-                                  from historial in _context.Historial  
-                                  where historial.IdAnime == id 
-                                  select new HistorialViewModel()
-                                  {
-                                      id_historial = historial.IdHistorial,
-                                      id_temp = historial.IdTemp,
-                                      NombreAnimeTemporada = historial.IdAnimeNavigation.Nombre + " " +              historial.IdTemporadaNavigation.NombreTemporada,
-                                      FechaInicio = historial.FechaInicio,
-                                      FechaFin = historial.FechaFin,
+                               }).AsNoTracking().ToListAsync();
 
-                                  }).AsNoTracking().ToListAsync();
-           
 
 
             }
@@ -68,7 +53,7 @@ namespace AppAnimes.Pages
 
 
             historialViewModel = historialIQ;
-            
+
             return Page();
         }
 

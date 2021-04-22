@@ -28,11 +28,11 @@ namespace AppAnimes.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            //Anime = await _context.Animestests.ToListAsync();
+
 
             IQueryable<Animes> animesIQ = from a in _context.Animes select a;
             IQueryable<Temporadas> temporadasIQ = from t in _context.Temporadas select t;
-            // var consulta = from a in _context.Animestests orderby a.Nombre descending select a;
+
 
             Anime = await animesIQ.AsNoTracking().ToListAsync();
             Temporadas = await temporadasIQ.AsNoTracking().ToListAsync();
