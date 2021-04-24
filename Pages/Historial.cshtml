@@ -6,7 +6,7 @@
 
 
 
-<h3>Historial </h3>
+<h3>Historial</h3>
 
 <table class="table table-striped table-sm">
     <thead>
@@ -52,6 +52,10 @@
                     @Html.DisplayFor(m => registroHistorial.FechaInicio) 
                 </td>
                 <td>
+                    @if(registroHistorial.FechaFin == null){
+
+                        @("Actualmente Viendo.")
+                    }
                     @Html.DisplayFor(m => registroHistorial.FechaFin) 
                 </td>
             </tr>

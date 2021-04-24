@@ -40,12 +40,12 @@ namespace AppAnimes.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            
-            
+
+
             var animesIQ
                      = await (from a in _context.Animes
-                              join t in _context.Temporadas  on a equals t.IdAnimeNavigation into atemp
-                              from at in atemp.DefaultIfEmpty()  
+                              join t in _context.Temporadas on a equals t.IdAnimeNavigation into atemp
+                              from at in atemp.DefaultIfEmpty()
                               orderby a.Nombre
                               select new AnimesTemporadasViewModel()
                               {
@@ -60,12 +60,8 @@ namespace AppAnimes.Pages
 
                               }).ToListAsync();
 
-            // _logger.LogInformation(animesIQ.ToList().ToString());
             animesTemporadasViewModels = animesIQ;
 
-
-
-  
 
 
 
