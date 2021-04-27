@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-#nullable disable
-
+ 
 namespace AppAnimes.Models
 {
     public partial class Animes
@@ -11,12 +12,15 @@ namespace AppAnimes.Models
         {
             Historial = new HashSet<Historial>();
             Temporadas = new HashSet<Temporadas>();
+     
         }
 
         [DisplayName("Id")] // En vez de IdAnime en la tabla del navegador se mostrara Id
         public int IdAnime { get; set; }
         public string Nombre { get; set; }
         public string Genero { get; set; }
+
+     
 
         [DisplayName("Nombre En Inglés")]
         public string NombreEnIngles { get; set; }

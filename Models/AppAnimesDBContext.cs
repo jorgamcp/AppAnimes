@@ -32,6 +32,7 @@ namespace AppAnimes.Models
             {
                 optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True");
             }
+            //optionsBuilder.LogTo(Console.WriteLine); Muestra el SQL Generado
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

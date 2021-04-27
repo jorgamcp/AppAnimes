@@ -25,14 +25,18 @@
 
 }
 
-<div class="row d-flex justify-content-end">
+<div class="row d-flex justify-content-between">
 
     <div class="col-6">
         <h4>Lista AnimesTemporadas.cshtml</h4>
     </div>
-    <div class="col-6 text-right">
+    @* <div class="col-6 text-right">
         <button type="button" class="btn  btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"
             data-backdrop="static" data-keyboard="false">Añadir</button>
+    </div> *@
+
+    <div class="col-6 d-flex">
+        <a  asp-page="/AnimesTemporadasAdd" class="btn btn-primary">Añadir</a>
     </div>
 </div>
 
@@ -46,12 +50,12 @@
 @*
     Dialogo Modal Para insertar Anime
 *@
-<div id="exampleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+@* <div id="exampleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Añadir Nuevo Anime</h5>
+                <h5 class="modal-title">Selecciona que deseas añadir</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -65,7 +69,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@
 
 @*
     FIN DIALOGO MODAL

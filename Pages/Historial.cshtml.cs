@@ -32,7 +32,6 @@ namespace AppAnimes.Pages
             {
                 historialIQ = await (
                                 from historial in _context.Historial
-
                                 select new HistorialViewModel()
                                 {
                                     id_historial = historial.IdHistorial,
@@ -41,7 +40,7 @@ namespace AppAnimes.Pages
                                     FechaInicio = historial.FechaInicio,
                                     FechaFin = historial.FechaFin,
 
-                                }).AsNoTracking().ToListAsync();
+                                }).AsNoTracking().OrderBy(h => h.FechaFin.HasValue).ToListAsync();
             }
             else
             {
