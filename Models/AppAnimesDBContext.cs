@@ -21,10 +21,10 @@ namespace AppAnimes.Models
         {
         }
 
-        public virtual DbSet<AnimesHistoricoVistaAppAnimesDB> AnimesHistoricoVistaTriggerDbtests { get; set; }
-        public virtual DbSet<Animes> Animes { get; set; }
+
+        public virtual DbSet<Anime> Animes { get; set; }
         public virtual DbSet<Historial> Historial { get; set; }
-        public virtual DbSet<Temporadas> Temporadas { get; set; }
+        public virtual DbSet<Temporada> Temporadas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,58 +39,27 @@ namespace AppAnimes.Models
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
 
-            modelBuilder.Entity<AnimesHistoricoVistaAppAnimesDB>(entity =>
+
+            modelBuilder.Entity<Anime>(entity =>
             {
-                entity.HasNoKey();
+                // entity.HasKey(e => e.AnimeId);
 
-                entity.ToView("AnimesHistoricoVista");
+                // entity.ToTable("Animes");
 
-                entity.Property(e => e.FechaFin)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_fin");
-
-                entity.Property(e => e.FechaInicio)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_inicio");
-
-                entity.Property(e => e.FechaPausa)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_pausa");
-
-                entity.Property(e => e.IdHistorial).HasColumnName("id_historial");
-
-                entity.Property(e => e.IdTemp).HasColumnName("id_temp");
-
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(756)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre");
-            });
-
-            modelBuilder.Entity<Animes>(entity =>
-            {
-                entity.HasKey(e => e.IdAnime);
-
-                entity.ToTable("Animes");
-
-                entity.Property(e => e.IdAnime).HasColumnName("id_anime");
+                // entity.Property(e => e.AnimeId).HasColumnName("id_anime");
 
                 entity.Property(e => e.Genero)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("genero");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre");
+                    .IsUnicode(false);
 
-                entity.Property(e => e.NombreEnIngles)
+                entity.Property(e => e.NombreIngles)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre_en_ingles");
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Historial>(entity =>
@@ -101,69 +70,54 @@ namespace AppAnimes.Models
 
                 entity.Property(e => e.IdHistorial).HasColumnName("id_historial");
 
-                entity.Property(e => e.FechaFin)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_fin");
+                entity.Property(e => e.FechaFin).HasColumnType("datetime");
 
-                entity.Property(e => e.FechaInicio)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_inicio");
 
-                entity.Property(e => e.FechaPausa)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_pausa");
+                entity.Property(e => e.FechaInicio).HasColumnType("datetime");
 
-                entity.Property(e => e.IdAnime).HasColumnName("id_anime");
+                entity.Property(e => e.VistoEn).HasMaxLength(50).IsUnicode(false);
 
-                entity.Property(e => e.IdTemp).HasColumnName("id_temp");
+                entity.HasOne(d => d.Anime)
+                    .WithMany(p => p.Historials)
+                    .HasForeignKey(d => d.AnimeId)
+                    .OnDelete(DeleteBehavior.NoAction)
+                    .HasConstraintName("FK_Historial_Animes");
 
-                entity.Property(e => e.VistoEn)
-                    .HasMaxLength(200)
-                    .IsUnicode(false)
-                    .HasColumnName("visto_en");
 
-                entity.HasOne(d => d.IdAnimeNavigation)
-                    .WithMany(p => p.Historial)
-                    .HasForeignKey(d => d.IdAnime)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_historial_animes");
+                entity.HasOne(d => d.Temporada)
+                .WithMany(p => p.Historials)
+                .HasForeignKey(d => d.TemporadaId)
+                .HasConstraintName("FK_Historial_Temporadas");
+
             });
 
-            modelBuilder.Entity<Temporadas>(entity =>
+            modelBuilder.Entity<Temporada>(entity =>
             {
-                entity.HasKey(e => new { e.IdAnime, e.IdTemporada });
 
-                entity.ToTable("Temporadas");
 
-                entity.Property(e => e.IdAnime).HasColumnName("id_anime");
-
-                entity.Property(e => e.IdTemporada).HasColumnName("id_temporada");
 
                 entity.Property(e => e.Estado)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("estado");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.NombreTemporada)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre_temporada");
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TemporadaEstreno)
-                    .HasMaxLength(400)
-                    .IsUnicode(false)
-                    .HasColumnName("temporada_estreno");
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Tipo)
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("tipo");
 
-                entity.HasOne(d => d.IdAnimeNavigation)
+                entity.HasOne(d => d.Anime)
                     .WithMany(p => p.Temporadas)
-                    .HasForeignKey(d => d.IdAnime)
+                    .HasForeignKey(d => d.AnimeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_temporadas_animes");
+                    .HasConstraintName("FK_Temporadas_Animes");
             });
 
             OnModelCreatingPartial(modelBuilder);

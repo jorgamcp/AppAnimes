@@ -9,9 +9,9 @@ namespace AppAnimesNuevo.Pages
 {
     public class AnimesTemporadaAdd : PageModel
     {
-        private readonly ILogger<Animes> _logger;
+        private readonly ILogger<Anime> _logger;
         private readonly AppAnimesDBContext _context;
-        public AnimesTemporadaAdd(ILogger<Animes> logger,AppAnimesDBContext context)
+        public AnimesTemporadaAdd(ILogger<Anime> logger,AppAnimesDBContext context)
         {
             // DI
             _logger=logger;

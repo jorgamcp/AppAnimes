@@ -24,15 +24,15 @@ namespace AppAnimes.Pages
 
         }
 
-        public IList<Models.Animes> Anime { get; set; }
-        public IList<Temporadas> Temporadas { get; set; }
+        public IList<Anime> Anime { get; set; }
+        public IList<Temporada> Temporadas { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
 
 
-            IQueryable<Models.Animes> animesIQ = from a in _context.Animes select a;
-            IQueryable<Temporadas> temporadasIQ = from t in _context.Temporadas select t;
+            IQueryable<Anime> animesIQ = from a in _context.Animes select a;
+            IQueryable<Temporada> temporadasIQ = from t in _context.Temporadas select t;
 
 
             Anime = await animesIQ.AsNoTracking().ToListAsync();

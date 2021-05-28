@@ -47,7 +47,7 @@
         <thead>
             <tr>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.Anime[0].IdAnime)
+                    @Html.DisplayNameFor(model => model.Anime[0].AnimeId)
                 </th>
 
 
@@ -61,7 +61,7 @@
                 </th>
 
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.Anime[0].NombreEnIngles)
+                    @Html.DisplayNameFor(model => model.Anime[0].NombreIngles)
                 </th>
             </tr>
         </thead>
@@ -72,7 +72,7 @@
 
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => anime.IdAnime)
+                        @Html.DisplayFor(modelItem => anime.AnimeId)
                     </td>
 
                     <td>
@@ -82,7 +82,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => anime.Genero)
                     </td>
-                    @if (anime.NombreEnIngles == null)
+                    @if (anime.NombreIngles == null)
                     {
                         <td>
                             <i>No especificado.</i>
@@ -92,7 +92,7 @@
                     {
 
                         <td>
-                            @Html.DisplayFor(modelItem => anime.NombreEnIngles)
+                            @Html.DisplayFor(modelItem => anime.NombreIngles)
                         </td>
                     }
                 </tr>
@@ -103,10 +103,10 @@
     <table>
         <thead>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Temporadas[0].IdAnime)
+                @Html.DisplayNameFor(model => model.Temporadas[0].AnimeId)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Temporadas[0].IdTemporada)
+                @Html.DisplayNameFor(model => model.Temporadas[0].TemporadaId)
             </th>
             <th scope="col">
                 @Html.DisplayNameFor(model => model.Temporadas[0].NombreTemporada)
@@ -125,8 +125,8 @@
             @foreach (var temporada in Model.Temporadas)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => temporada.IdAnime)</td>
-                    <td>@Html.DisplayFor(modelItem => temporada.IdTemporada)</td>
+                    <td>@Html.DisplayFor(modelItem => temporada.AnimeId)</td>
+                    <td>@Html.DisplayFor(modelItem => temporada.TemporadaId)</td>
                     <td>@Html.DisplayFor(modelItem => temporada.NombreTemporada)</td>
                     <td>@Html.DisplayFor(modelItem => temporada.Tipo)</td>
                     <td>@Html.DisplayFor(modelItem => temporada.TemporadaEstreno)</td>

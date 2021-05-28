@@ -35,8 +35,8 @@ namespace AppAnimes.Pages
                                 select new HistorialViewModel()
                                 {
                                     id_historial = historial.IdHistorial,
-                                    id_temp = historial.IdTemp,
-                                    NombreAnimeTemporada = historial.IdAnimeNavigation.Nombre + " " + historial.IdTemporadaNavigation.NombreTemporada,
+                                    id_temp = historial.TemporadaId,
+                                    NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                                     FechaInicio = historial.FechaInicio,
                                     FechaFin = historial.FechaFin,
 
@@ -48,12 +48,12 @@ namespace AppAnimes.Pages
                 // He dado clic en el Boton de la tabla de 'Ver Historico', muestrame el historico solo de ese anime, paso el id con un where
                 historialIQ = await (
                                from historial in _context.Historial
-                               where historial.IdAnime == id
+                               where historial.AnimeId == id
                                select new HistorialViewModel()
                                {
                                    id_historial = historial.IdHistorial,
-                                   id_temp = historial.IdTemp,
-                                   NombreAnimeTemporada = historial.IdAnimeNavigation.Nombre + " " + historial.IdTemporadaNavigation.NombreTemporada,
+                                   id_temp = historial.TemporadaId,
+                                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                                    FechaInicio = historial.FechaInicio,
                                    FechaFin = historial.FechaFin,
 

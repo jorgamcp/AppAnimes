@@ -44,16 +44,16 @@ namespace AppAnimes.Pages
 
             var animesIQ
                      = await (from a in _context.Animes
-                              join t in _context.Temporadas on a equals t.IdAnimeNavigation into atemp
+                              join t in _context.Temporadas on a equals t.Anime into atemp
                               from at in atemp.DefaultIfEmpty()
                               orderby a.Nombre
                               select new AnimesTemporadasViewModel()
                               {
-                                  id_anime = a.IdAnime,
-                                  id_temporada = at.IdTemporada,
+                                  id_anime = a.AnimeId,
+                                  id_temporada = at.TemporadaId,
                                   NombreAnimeTemporada = a.Nombre + " " + at.NombreTemporada,
                                   genero = a.Genero,
-                                  nombreEnIngles = at.IdAnimeNavigation.NombreEnIngles,
+                                  nombreEnIngles = at.Anime.NombreIngles,
                                   estado = at.Estado,
                                   tipo = at.Tipo,
                                   temporada_estreno = at.TemporadaEstreno
