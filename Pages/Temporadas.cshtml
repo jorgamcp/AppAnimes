@@ -1,0 +1,124 @@
+@page
+@model aspnetcoreapp.Pages.Animes.TemporadasModel
+
+@{
+    ViewData["Title"] = "Temporadas";
+}
+
+<h1>Temporadas</h1>
+
+<h4>Temporada</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Temporada.AnimeId" class="control-label"></label>
+                <select asp-for="Temporada.AnimeId" class="form-control" asp-items="ViewBag.AnimeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temporada.NumeroTemporada" class="control-label"></label>
+                <input asp-for="Temporada.NumeroTemporada" class="form-control" />
+                <span asp-validation-for="Temporada.NumeroTemporada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temporada.NombreTemporada" class="control-label"></label>
+                <input asp-for="Temporada.NombreTemporada" class="form-control" />
+                <span asp-validation-for="Temporada.NombreTemporada" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temporada.Estado" class="control-label"></label>
+                <input asp-for="Temporada.Estado" class="form-control" />
+                <span asp-validation-for="Temporada.Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temporada.Tipo" class="control-label"></label>
+                <input asp-for="Temporada.Tipo" class="form-control" />
+                <span asp-validation-for="Temporada.Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Temporada.TemporadaEstreno" class="control-label"></label>
+                <input asp-for="Temporada.TemporadaEstreno" class="form-control" />
+                <span asp-validation-for="Temporada.TemporadaEstreno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="AnimesTemporadas" >Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+       }
+
+<script>
+
+
+    // Encontrar numero maximo de un arrray
+    function max(input) {
+        if (toString.call(input) !== "[object Array]") // si lo que me pasas por argumento a la fn no es un array devuelve false
+            return false;
+        return Math.max.apply(null, input); // es igual a Math.max("numero1","numero2") max no acepta un array como entrada
+    }
+
+
+    let id_anime = -1;
+    let input_numeroTemporada = document.getElementById('Temporada_NumeroTemporada');
+    document.getElementById('Temporada_AnimeId').addEventListener('change', function () {
+        console.log('You selected ' + this.value);
+        id_anime = this.value;
+
+
+        // data es un array de numeros , que continene todos los numerostemporada del id_anime que se pase por parametro data = [1,2,3,4,5]
+
+        fetch('https://localhost:5001/Temporadas?handler=ObtenerUltimoNumeroTemporada&id_anime=' + id_anime)
+            .then(response => response.json())
+            //.then(data => console.log(max(data)))
+            .then(data => document.getElementById('Temporada_NumeroTemporada').value = max(data)+1)
+            .catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
+            });
+
+@*         
+            fetch('https://localhost:5001/Animes/Temporadas/?handler=ObtenerUltimoNumeroTemporada&id_anime=' + id_anime)
+                .then(response => response.json())
+                //.then(data => console.log(max(data)))
+                .then(data => document.getElementById('Temporada_NumeroTemporada').value = max(data)+1)
+                .catch(function (error) {
+                    console.log('Hubo un problema con la petición Fetch:' + error.message);
+                }); *@
+
+
+    });
+
+    /*
+   Este codigo Funciona
+    let id_anime = -1;
+    document.getElementById('Temporada_AnimeId').addEventListener('change', function () {
+        console.log('You selected ' + this.value);
+        id_anime = this.value;
+
+
+
+        fetch('https://localhost:5001/Animes/Temporadas/?handler=ObtenerUltimoNumeroTemporada&id_anime=' + id_anime)
+            .then(response => response.json())
+            .then(data => console.log(data))
+        .catch(function (error) {
+            console.log('Hubo un problema con la petición Fetch:' + error.message);
+        });
+
+
+    });
+    */
+
+
+
+</script>
+}

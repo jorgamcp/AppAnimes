@@ -37,7 +37,7 @@
 
     <div class="col-6 d-flex">
         <a class="btn  btn-primary mr-3"  asp-page="CrearAnimeTemporada">Añadir Anime y 1º Temporada</a>
-        <a class="btn  btn-success text-white">Añadir Temporada a Anime existente</a>
+        <a class="btn  btn-success text-white" asp-page="Temporadas">Añadir Temporada a Anime existente</a>
     </div>
 </div>
 
@@ -187,7 +187,7 @@
 
 <a asp-page="./AnimesTemporadas"
    asp-route-pageIndex="@(Model.animesTemporadasPaginated.PageIndex - 1)"
-   class="btn btn-primary @prevDisabled">
+   class="btn btn-primary @prevDisabled mr-3">
     Anterior
 </a>
 <a asp-page="./AnimesTemporadas"

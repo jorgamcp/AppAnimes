@@ -1,8 +1,4 @@
-CREATE OR ALTER PROCEDURE QueryAllTablesProc AS
-    SELECT * FROM dbo.Animes ORDER BY id_anime asc;
-    SELECT * FROM dbo.Temporadas ORDER BY id_anime asc;
-    SELECT * FROM dbo.Historial ORDER BY id_anime asc;
-GO
+select * from temporadas where AnimeId=2;
 
-EXEC dbo.QueryAllTablesProc;
-go
+
+ 
