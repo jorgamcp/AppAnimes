@@ -1,0 +1,74 @@
+﻿@page
+@model AppAnimes.Pages.Animes.CrearAnimeTemporadaModel
+@{
+
+    ViewData["Title"] = "Crear Anime y agregar informacion temporada ";
+
+}
+<h3>Crear Anime y Temporada</h3>
+
+<form method="post" id="form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Anime.Nombre" class="control-label"></label>
+        <input asp-for="Anime.Nombre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Anime.Genero"></label>
+        <input asp-for="Anime.Genero" class="form-control" />
+        <span asp-validation-for="Anime.Genero"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Anime.NombreIngles"></label>
+        <input asp-for="Anime.NombreIngles" class="form-control" />
+        <span asp-validation-for="Anime.NombreIngles"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.NumeroTemporada"></label>
+        <input asp-for="Temporada.NumeroTemporada" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.NombreTemporada"></label>
+        <input asp-for="Temporada.NombreTemporada" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.Estado"></label>
+        <input asp-for="Temporada.Estado" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.Tipo"></label>
+        <input asp-for="Temporada.Tipo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Temporada.TemporadaEstreno"></label>
+        <input asp-for="Temporada.TemporadaEstreno" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+
+
+</form>
+
+
+<a asp-page="AnimesTemporadas">Volver al listado</a>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript">
+ 
+    $('#Anime_Nombre').on('focusout', function () {
+        $.ajax({
+            url: '@Url.Page("index", "ObtenerTodosDatosAnime")',
+            type: "GET",
+            dataType: "json",
+            data: { fetch: $("#CrearAnimeTemporadaVM_Genero").val() },
+            success: function (query) {
+                $("#CrearAnimeTemporadaVM_Genero").val(query[0]);
+            },
+        });
+    });
+
+    
+
+</script>

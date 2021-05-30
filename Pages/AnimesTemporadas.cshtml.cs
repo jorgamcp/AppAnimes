@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using AppAnimesNuevo;
 
 namespace AppAnimes.Pages
 {
@@ -27,8 +28,8 @@ namespace AppAnimes.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly AppAnimesDBContext _context;
 
-        public IList<AnimesTemporadasViewModel> animesTemporadasViewModels { get; set; }
-
+        // public IList<AnimesTemporadasViewModel> animesTemporadasViewModels { get; set; }
+        public PaginatedList<AnimesTemporadasViewModel> animesTemporadasPaginated { get; set; }
 
         public AnimesTemporadasModel(ILogger<IndexModel> logger, AppAnimesDBContext context)
         {
@@ -38,29 +39,35 @@ namespace AppAnimes.Pages
         }
 
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(int? pageIndex)
         {
+            var pageSize = 10; // Tamaño maximo  de filas que tiene la tabla.
+            // si me introducen un pageindex < 1 redirigimos al index de AnimesTemporadas
+            if (pageIndex <= 0)
+            {
+                return RedirectToPage("AnimesTemporadas");
 
+            }
 
-            var animesIQ
-                     = await (from a in _context.Animes
-                              join t in _context.Temporadas on a equals t.Anime into atemp
-                              from at in atemp.DefaultIfEmpty()
-                              orderby a.Nombre
-                              select new AnimesTemporadasViewModel()
-                              {
-                                  id_anime = a.AnimeId,
-                                  id_temporada = at.TemporadaId,
-                                  NombreAnimeTemporada = a.Nombre + " " + at.NombreTemporada,
-                                  genero = a.Genero,
-                                  nombreEnIngles = at.Anime.NombreIngles,
-                                  estado = at.Estado,
-                                  tipo = at.Tipo,
-                                  temporada_estreno = at.TemporadaEstreno
+            animesTemporadasPaginated = await PaginatedList<AnimesTemporadasViewModel>.CreateAsync(
+                     from a in _context.Animes
+                     join t in _context.Temporadas on a equals t.Anime into atemp
+                     from at in atemp.DefaultIfEmpty()
+                     orderby a.Nombre
+                     select new AnimesTemporadasViewModel()
+                     {
+                         id_anime = a.AnimeId,
+                         id_temporada = at.TemporadaId,
+                         NumeroTemporada = at.NumeroTemporada,
+                         NombreAnimeTemporada = a.Nombre + " " + at.NombreTemporada,
+                         genero = a.Genero,
+                         nombreEnIngles = at.Anime.NombreIngles,
+                         estado = at.Estado,
+                         tipo = at.Tipo,
+                         temporada_estreno = at.TemporadaEstreno
 
-                              }).ToListAsync();
+                     }, pageIndex ?? 1, pageSize);
 
-            animesTemporadasViewModels = animesIQ;
 
 
 

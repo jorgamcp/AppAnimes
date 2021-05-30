@@ -1,62 +1,70 @@
 ﻿@page "{id:int?}"
 @model Pages.HistorialModel
 @{
-
+ ViewData["Title"] = "Historial";
 }
 
 
 
 <h3>Historial</h3>
-
+<div class="row">
+    @*Cuadro busqueda*@
+    <div class="col">
+        <form>
+            <p style="display:inline;">Buscar Anime: <input type="text" asp-for="searchString" /></p>
+            <input type="submit" value="Buscar" />
+        </form>
+    </div>
+</div>
 <table class="table table-striped table-sm">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(h => h.historialViewModel[0].id_historial)
+                @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].idHistorial)
             </th>
             <th>
-                @Html.DisplayNameFor(h => h.historialViewModel[0].id_temp)
+                @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].NumeroTemporada)
             </th>
             <th>
-                @Html.DisplayNameFor(h => h.historialViewModel[0].NombreAnimeTemporada)
+                @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].NombreAnimeTemporada)
             </th>
             <th>
-                @Html.DisplayNameFor(h => h.historialViewModel[0].FechaInicio)
+                @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].fechaInicio)
             </th>
             <th>
-                @Html.DisplayNameFor(h => h.historialViewModel[0].FechaFin)
+                @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].fechaFin)
             </th>
         </tr>
     </thead>
     <tbody>
-        @if(Model.historialViewModel.ToList().Count == 0){
+        @if(Model.HistorialAnimesTemporadasPaginated.ToList().Count == 0){
             <tr col=5>
                 <td colspan="5" class="text-center"> No Hay Registros</td>
             </tr>
         }
         else{
 
-        @foreach(var registroHistorial in Model.historialViewModel){
+        @foreach(var registroHistorial in Model.HistorialAnimesTemporadasPaginated){
             
             <tr>
                 <td>
-                    @Html.DisplayFor(m => registroHistorial.id_historial)
+                    @Html.DisplayFor(m => registroHistorial.idHistorial)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => registroHistorial.id_temp)
+                    @Html.DisplayFor(m => registroHistorial.NumeroTemporada)
                 </td>
                 <td>
                     @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada) 
                 </td>
                 <td>
-                    @Html.DisplayFor(m => registroHistorial.FechaInicio) 
+                    @Html.DisplayFor(m => registroHistorial.fechaInicio) 
                 </td>
                 <td>
-                    @if(registroHistorial.FechaFin == null){
+                    @if(registroHistorial.fechaFin == null){
 
                         @("Actualmente Viendo.")
                     }
-                    @Html.DisplayFor(m => registroHistorial.FechaFin) 
+                    @Html.DisplayFor(m => registroHistorial.fechaFin) 
                 </td>
             </tr>
             }
@@ -64,5 +72,23 @@
     </tbody>
 </table>
 
-<a asp-page="AnimesTemporadas" class="btn btn-primary">Volver</a>
+@{ 
+    var prevDisabled = !Model.HistorialAnimesTemporadasPaginated.HasPreviousPage ?  "disabled" : "";
+    var nextDisabled = !Model.HistorialAnimesTemporadasPaginated.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Historial"
+   asp-route-pageIndex="@(Model.HistorialAnimesTemporadasPaginated.PageIndex - 1)"
+   class="btn btn-outline-primary @prevDisabled">
+   Anterior
+ </a>
+
+<a asp-page="./Historial"
+   asp-route-pageIndex="@(Model.HistorialAnimesTemporadasPaginated.PageIndex +1)"
+   class="btn btn-outline-primary @nextDisabled">
+    Siguiente
+</a>
+<div class="d-block pt-4">
+    <a asp-page="AnimesTemporadas" class="btn btn-primary">Volver</a>
+</div>
 

@@ -31,12 +31,13 @@
         <h4>Lista AnimesTemporadas.cshtml</h4>
     </div>
     @* <div class="col-6 text-right">
-        <button type="button" class="btn  btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"
-            data-backdrop="static" data-keyboard="false">Añadir</button>
-    </div> *@
+        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"
+        data-backdrop="static" data-keyboard="false">Añadir</button>
+        </div> *@
 
     <div class="col-6 d-flex">
-        <a  asp-page="/AnimesTemporadasAdd" class="btn btn-primary">Añadir</a>
+        <a class="btn  btn-primary mr-3"  asp-page="CrearAnimeTemporada">Añadir Anime y 1º Temporada</a>
+        <a class="btn  btn-success text-white">Añadir Temporada a Anime existente</a>
     </div>
 </div>
 
@@ -53,23 +54,23 @@
 @* <div id="exampleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Selecciona que deseas añadir</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title">Selecciona que deseas añadir</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
     </div>
-</div> *@
+    <div class="modal-body">
+    <p>Modal body text goes here.</p>
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-primary">Save changes</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+    </div>
+    </div>
+    </div> *@
 
 @*
     FIN DIALOGO MODAL
@@ -80,32 +81,31 @@
         <thead class="table-dark">
             <tr>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].id_anime)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].id_anime)
                 </th>
 
 
-
+ 
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].id_temporada)
-                </th>
-
-                <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].NombreAnimeTemporada)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].NumeroTemporada)
                 </th>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].genero)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].NombreAnimeTemporada)
                 </th>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].nombreEnIngles)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].genero)
                 </th>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].estado)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].nombreEnIngles)
                 </th>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].tipo)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].estado)
                 </th>
                 <th scope="col">
-                    @Html.DisplayNameFor(model => model.animesTemporadasViewModels[0].temporada_estreno)
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].tipo)
+                </th>
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.animesTemporadasPaginated[0].temporada_estreno)
                 </th>
                 <th scope="col" colspan="3" class="text-center">
                     Acciones
@@ -115,7 +115,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var animetemporadasjuntos in Model.animesTemporadasViewModels)
+            @foreach (var animetemporadasjuntos in Model.animesTemporadasPaginated)
             {
 
                 <tr>
@@ -123,7 +123,8 @@
                     <td>
                         @Html.DisplayFor(modelItem => animetemporadasjuntos.id_anime)
                     </td>
-                    @if (animetemporadasjuntos.id_temporada == null)
+                   
+                    @if (animetemporadasjuntos.NumeroTemporada == null)
                     {
                         <td>
                             <i>-</i>
@@ -132,7 +133,7 @@
                     else
                     {
                         <td>
-                            @Html.DisplayFor(modelItem => animetemporadasjuntos.id_temporada)
+                            @Html.DisplayFor(modelItem => animetemporadasjuntos.NumeroTemporada)
                         </td>
                     }
 
@@ -161,7 +162,7 @@
                         @Html.DisplayFor(modelItem => animetemporadasjuntos.temporada_estreno)
                     </td>
                     <td>
-                        <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                          <a  class="btn btn-sm btn-warning" asp-page="./EditarTemporada" asp-route-temporadaId="@animetemporadasjuntos.id_temporada" asp-route-AnimeId="@animetemporadasjuntos.id_anime"  >Editar Info Temporada</a>
                     </td>
 
                     <td>
@@ -170,7 +171,7 @@
 
                     <td>
                         <a asp-page="/Historial" asp-route-id="@animetemporadasjuntos.id_anime"
-                            class="btn btn-sm btn-secondary">Ver Histórico</a>
+                        class="btn btn-sm btn-secondary">Ver Histórico</a>
                     </td>
                 </tr>
             }
@@ -179,5 +180,21 @@
 
         </tbody>
     </table>
+@{
+    var prevDisabled = !Model.animesTemporadasPaginated.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.animesTemporadasPaginated.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./AnimesTemporadas"
+   asp-route-pageIndex="@(Model.animesTemporadasPaginated.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Anterior
+</a>
+<a asp-page="./AnimesTemporadas"
+   asp-route-pageIndex="@(Model.animesTemporadasPaginated.PageIndex + 1)"
+ 
+   class="btn btn-primary @nextDisabled">
+    Siguiente
+</a>
 
 </section>

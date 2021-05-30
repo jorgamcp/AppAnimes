@@ -30,7 +30,10 @@ namespace AppAnimes
         {
             services.AddRazorPages();
             services.AddDbContext<AppAnimesDBContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True"));
-            
+
+            // Remove error cycle
+              services.AddControllers().AddNewtonsoftJson(options =>
+     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
 

@@ -40,6 +40,19 @@ namespace AppAnimes.Pages
             return Page();
         }
 
+         public IActionResult OnGetObtenerNombresAnimes(string term)
+        {
+            var animesNombres = _context.Animes.Where(a => a.Nombre.StartsWith(term)).Select(a => a.Nombre).ToList();
+
+            return new JsonResult(animesNombres);
+        }
+
+        public IActionResult OnGetObtenerTodosDatosAnime(string nombre)
+        {
+          //  List<Anime> datoAnime = _context.Animes.Where(a => a.Nombre.StartsWith(nombre)).Include(a => a.Temporadas).ToList();
+            List<Anime> dato = _context.Animes.Where(a => a.Nombre.Contains(nombre)).Include(a => a.Historials).ToList();
+            return new JsonResult(dato);
+        }
 
     }
 }

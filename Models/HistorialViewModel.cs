@@ -1,21 +1,42 @@
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 using System.ComponentModel;
 
 namespace AppAnimes.Models
 {
-    public class HistorialViewModel
+    public class HistorialViewModel : PageModel
     {
 
-        [DisplayName("Id Historial")]
-        public int? id_historial { get; set; }
-        [DisplayName("Numero Temporada")]
-        public int? id_temp { get; set; }
+        public int? idHistorial { get; set; }
 
+        [DisplayName("Id Anime")]
+
+        public int? id_anime { get; set; }
+
+        [DisplayName("Numero de Temporada")]
+        public int? NumeroTemporada { get; set; }
+        public int? id_temporada { get; set; }
         [DisplayName("Nombre (Anime+Temporada)")]
         public string NombreAnimeTemporada { get; set; }
+        public string NombreAnime { get; set; }
+        public string nombreTemporada { get; set; }
+
         [DisplayName("Fecha Inicio")]
-        public DateTime? FechaInicio { get; set; }
+        public DateTime? fechaInicio { get; set; }
+
         [DisplayName("Fecha Fin")]
-        public DateTime? FechaFin { get; set; }
+        public DateTime? fechaFin { get; set; }
+
+        [DisplayName("Fecha Pausa")]
+        public DateTime? fechaPausa { get; set; }
+
+        [DisplayName("Visto En")]
+        public string VistoEn { get; set; }
+
+        public HistorialViewModel()
+        {
+            NombreAnimeTemporada = NombreAnime + " " + nombreTemporada;
+        }
+
     }
 }

@@ -18,9 +18,12 @@ namespace AppAnimes.Models
         public int? id_anime { get; set; }
 
         [DisplayName("Numero de Temporada")]
+         public int? NumeroTemporada { get; set; }
         public int? id_temporada { get; set; }
         [DisplayName("Nombre (Anime+Temporada)")]
         public string NombreAnimeTemporada { get; set; }
+        public string NombreAnime { get; set; }
+        public string  nombreTemporada { get; set; }
         [DisplayName("Género")]
         public string genero { get; set; }
         [DisplayName("Nombre En Inglés")]
@@ -33,7 +36,7 @@ namespace AppAnimes.Models
         public string temporada_estreno { get; set; }
         public AnimesTemporadasViewModel()
         {
-
+            NombreAnimeTemporada = NombreAnime + " " + nombreTemporada;
         }
 
          
