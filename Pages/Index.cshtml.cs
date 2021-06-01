@@ -66,7 +66,7 @@ namespace AppAnimes.Pages
             
             var maximoNumeroTemporada = _context.Temporadas
             .FromSqlRaw("SELECT MAX(NUMEROTEMPORADA) ").ToList();
-            int x ;
+           
             return new JsonResult(maximoNumeroTemporada); 
         }
 

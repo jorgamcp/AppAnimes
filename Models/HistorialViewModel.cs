@@ -33,6 +33,9 @@ namespace AppAnimes.Models
         [DisplayName("Visto En")]
         public string VistoEn { get; set; }
 
+        [DisplayName("Año Visto")]
+        public int? AnyoVisto{get;set;}
+
         public HistorialViewModel()
         {
             NombreAnimeTemporada = NombreAnime + " " + nombreTemporada;
