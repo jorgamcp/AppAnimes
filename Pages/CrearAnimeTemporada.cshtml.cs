@@ -29,6 +29,7 @@ namespace AppAnimes.Pages.Animes
 
         public IActionResult OnGet()
         {
+            
 
             return Page();
         }

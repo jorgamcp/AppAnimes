@@ -56,19 +56,69 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
- 
+    // var nombre = $('#Anime_Nombre').val();
+    //  var miurl = "ObtenerTodosDatosAnime?nombre="+nombre;
+    let valor_campo = document.querySelector('#Anime_Nombre').value;
+    if (valor_campo.lenght < 0) {
+        document.querySelector('#Temporada_NumeroTemporada').value = "";
+    }
     $('#Anime_Nombre').on('focusout', function () {
         $.ajax({
-            url: '@Url.Page("index", "ObtenerTodosDatosAnime")',
+            url: decodeURI(`/?handler=ObtenerTodosDatosAnime&nombre=${$('#Anime_Nombre').val().split(" ")[0]}`),
+            contentType: "application/json",
             type: "GET",
             dataType: "json",
             data: { fetch: $("#CrearAnimeTemporadaVM_Genero").val() },
-            success: function (query) {
-                $("#CrearAnimeTemporadaVM_Genero").val(query[0]);
+            success: function (response) {
+
+                console.log(response[0].genero);
+
+                $("#Anime_Genero").val(response[0].genero);
+                $("#Anime_NombreIngles").val(response[0].nombreIngles);
+
+                if (response[0].temporadas === undefined) {
+                    $("#Temporada_NumeroTemporada").val("1");
+                    $("#Temporada_Estado").val("Viendo");
+                    $("#Temporada_Tipo").val("SERIE");
+                }
+                else {
+
+                    if (response[0].temporadas[0].tipo === "PELICULA") {
+                        $('.btn').prop('disabled', true) // Deshabilita el boton de Guardar
+                        $("#Temporada_NumeroTemporada").val("No tiene es pelicula");
+                        $("#Temporada_Estado").val(response[0].temporadas[0].estado);
+                        $("#Temporada_Tipo").val(response[0].temporadas[0].tipo);
+                    }
+                    else {
+                        if (response[0].temporadas.length === 0) {
+                            $("#Temporada_NumeroTemporada").val("1");
+
+                        }
+                        else {
+                            //  $("#Temporada_NumeroTemporada").val(response[0].temporadas[0].numeroTemporada + 1)
+                            console.log('Numero Temporada Maximo: ' + response[0].temporadas[response[0].temporadas.length - 1].numeroTemporada);
+                            $("#Temporada_NumeroTemporada").val(response[0].temporadas[response[0].temporadas.length - 1].numeroTemporada + 1);
+
+                        }
+                        $('.btn').removeAttr('disabled') // Rehabilita el boton de Guardar
+                    }
+
+                }
+
+
+
+
             },
+            failure: function (response) {
+                $("#Temporada_NumeroTemporada").val("1");
+                $("#Temporada_Estado").val("Viendo");
+                $("#Temporada_Tipo").val("SERIE");
+                return response;
+            }
         });
+
     });
 
-    
+
 
 </script>

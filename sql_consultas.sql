@@ -1,4 +1,4 @@
-select * from temporadas where AnimeId=2;
-
+select * from temporadas;
+select * from Animes;
 
  

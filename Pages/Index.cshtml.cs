@@ -50,8 +50,24 @@ namespace AppAnimes.Pages
         public IActionResult OnGetObtenerTodosDatosAnime(string nombre)
         {
           //  List<Anime> datoAnime = _context.Animes.Where(a => a.Nombre.StartsWith(nombre)).Include(a => a.Temporadas).ToList();
-            List<Anime> dato = _context.Animes.Where(a => a.Nombre.Contains(nombre)).Include(a => a.Historials).ToList();
+            List<Anime> dato = _context.Animes.Where(a => a.Nombre.Contains(nombre)).Include(a => a.Temporadas).ToList();
+            
+            if(dato.Count == 0)
+            {
+                return new JsonResult("Not in database");
+            }
+
             return new JsonResult(dato);
+        }
+
+        public IActionResult OnGetObtenerMaximoNumeroTemporada(string nombre)
+        {
+           // var maximoNumeroTemporada = _context.Temporadas.Where(t => t.NombreTemporada.Contains(nombre)).Max(a => a.NumeroTemporada);
+            
+            var maximoNumeroTemporada = _context.Temporadas
+            .FromSqlRaw("SELECT MAX(NUMEROTEMPORADA) ").ToList();
+            int x ;
+            return new JsonResult(maximoNumeroTemporada); 
         }
 
     }
