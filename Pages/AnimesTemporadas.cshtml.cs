@@ -30,7 +30,10 @@ namespace AppAnimes.Pages
 
         // public IList<AnimesTemporadasViewModel> animesTemporadasViewModels { get; set; }
         public PaginatedList<AnimesTemporadasViewModel> animesTemporadasPaginated { get; set; }
-        public AnimesTemporadasViewModel animesTemporadasViewModel{get;set;}
+        public AnimesTemporadasViewModel animesTemporadasViewModel { get; set; }
+
+        [BindProperty(SupportsGet = true)]//Enlace Modelo Soporta GET
+        public string searchString { get; set; } // cadena busqueda
         public AnimesTemporadasModel(ILogger<IndexModel> logger, AppAnimesDBContext context)
         {
             _logger = logger;
@@ -38,7 +41,7 @@ namespace AppAnimes.Pages
 
         }
 
-    
+
         public async Task<IActionResult> OnGetAsync(int? pageIndex)
         {
             var pageSize = 7; // Tamaño maximo  de filas que tiene la tabla.
@@ -69,7 +72,31 @@ namespace AppAnimes.Pages
                      }, pageIndex ?? 1, pageSize);
 
 
+            // Busqueda
 
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                animesTemporadasPaginated = await PaginatedList<AnimesTemporadasViewModel>.CreateAsync(
+                   from a in _context.Animes
+                   join t in _context.Temporadas on a equals t.Anime into atemp
+                   from at in atemp.DefaultIfEmpty()
+                   orderby a.Nombre
+                  where at.Anime.Nombre.Contains(searchString) || at.NombreTemporada.Contains(searchString) || a.NombreIngles.Contains(searchString)
+
+                   select new AnimesTemporadasViewModel()
+                   {
+                       id_anime = a.AnimeId,
+                       id_temporada = at.TemporadaId,
+                       NumeroTemporada = at.NumeroTemporada,
+                       NombreAnimeTemporada = a.Nombre + " " + at.NombreTemporada,
+                       genero = a.Genero,
+                       nombreEnIngles = at.Anime.NombreIngles,
+                       estado = at.Estado,
+                       tipo = at.Tipo,
+                       temporada_estreno = at.TemporadaEstreno
+
+                   }, pageIndex ?? 1, pageSize);
+            }
 
 
             return Page();

@@ -29,7 +29,7 @@
 <div class="row d-flex justify-content-between">
 
     <div class="col-6">
-        <h4>Lista AnimesTemporadas.cshtml</h4>
+        <h4>Lista de Animes</h4>
     </div>
     @* <div class="col-6 text-right">
         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -47,7 +47,12 @@
     <div class="col-6">
         <p> Los Animes que tienen un guion - <b>No tienen temporadas</b></p>
     </div>
-
+    <div class="col-6">
+          <form>
+            <p style="display:inline;">Buscar Anime: <input type="text" asp-for="searchString" /></p>
+            <input type="submit" value="Buscar" />
+        </form>
+    </div>
 </div>
  
 <section class="row ">
