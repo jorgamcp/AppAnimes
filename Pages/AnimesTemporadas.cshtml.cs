@@ -30,7 +30,7 @@ namespace AppAnimes.Pages
 
         // public IList<AnimesTemporadasViewModel> animesTemporadasViewModels { get; set; }
         public PaginatedList<AnimesTemporadasViewModel> animesTemporadasPaginated { get; set; }
-
+        public AnimesTemporadasViewModel animesTemporadasViewModel{get;set;}
         public AnimesTemporadasModel(ILogger<IndexModel> logger, AppAnimesDBContext context)
         {
             _logger = logger;
@@ -38,7 +38,7 @@ namespace AppAnimes.Pages
 
         }
 
-
+    
         public async Task<IActionResult> OnGetAsync(int? pageIndex)
         {
             var pageSize = 10; // Tamaño maximo  de filas que tiene la tabla.

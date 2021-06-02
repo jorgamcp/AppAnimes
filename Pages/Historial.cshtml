@@ -35,8 +35,12 @@
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].fechaFin)
             </th>
             <th>
+                @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].VistoEn)
+            </th>
+            <th>
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].AnyoVisto)
             </th>
+           
         </tr>
     </thead>
     <tbody>
@@ -69,14 +73,25 @@
                     }
                     @Html.DisplayFor(m => registroHistorial.fechaFin) 
                 </td>
+                
                 <td>
-                @if(registroHistorial.AnyoVisto == null)
-                {
-                    @("-")
-                }
-                else{
-                    @Html.DisplayFor(m => registroHistorial.AnyoVisto)
-                }
+                    @if(registroHistorial.VistoEn == null)
+                    {
+                        @("-")
+                    }
+                    else{
+                        @Html.DisplayFor(m => registroHistorial.VistoEn)
+                    }
+                </td>
+
+                <td>
+                    @if(registroHistorial.AnyoVisto == null)
+                    {
+                        @("-")
+                    }
+                    else{
+                        @Html.DisplayFor(m => registroHistorial.AnyoVisto)
+                    }
                 </td>
             </tr>
             }

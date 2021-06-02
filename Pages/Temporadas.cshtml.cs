@@ -41,7 +41,7 @@ namespace aspnetcoreapp.Pages.Animes
             return Page();
         }
 
-        public async Task<IActionResult> OnGetObtenerUltimoNumeroTemporada(int? id_anime)
+        public  IActionResult OnGetObtenerUltimoNumeroTemporada(int? id_anime)
         {
             if (id_anime == null)
             {

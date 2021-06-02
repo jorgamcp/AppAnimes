@@ -13,10 +13,10 @@ namespace aspnetcoreapp.Pages.Animes
 {
     public class EditarTemporadaModel : PageModel
     {
-        private readonly  AppAnimesDBContext  _context;
+        private readonly AppAnimesDBContext _context;
         private readonly ILogger _logger; // Log info.
 
-        public EditarTemporadaModel(AppAnimesDBContext context,ILogger<EditarTemporadaModel> logger)
+        public EditarTemporadaModel(AppAnimesDBContext context, ILogger<EditarTemporadaModel> logger)
         {
             _context = context;
             _logger = logger; // Log info
@@ -30,10 +30,10 @@ namespace aspnetcoreapp.Pages.Animes
         // Campo clase pageIndex
         public int? pageIndex { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? TemporadaId,int AnimeId,int? pageIndex) // PageIndex es para la paginacion
+        public async Task<IActionResult> OnGetAsync(int? TemporadaId, int AnimeId, int? pageIndex) // PageIndex es para la paginacion
         {
 
-            if(TemporadaId == null)
+            if (TemporadaId == null)
             {
                 return NotFound();
             }
@@ -42,20 +42,20 @@ namespace aspnetcoreapp.Pages.Animes
 
             Anime = await _context.Animes.FindAsync(AnimeId);
 
-            
+
 
             ViewData["NombreTemporada"] = Temporada.NombreTemporada;
             ViewData["NumeroTemporada"] = Temporada.NumeroTemporada;
             ViewData["NombreAnime"] = Anime.Nombre;
 
-            if(Temporada == null)
+            if (Temporada == null)
             {
                 return NotFound();
             }
 
             // Paginacion
             // Si doy al link de volver, quiero volver a la lista de animes a la pagina donde YO estaba no al principio de la lista
-            if(pageIndex == null)
+            if (pageIndex == null)
             {
                 // pero si es nulo , pues llevame a la pagina uno que le vamos a hacer
                 this.pageIndex = 1;
@@ -75,26 +75,35 @@ namespace aspnetcoreapp.Pages.Animes
         {
             Temporada TemporadaActualizar = await _context.Temporadas.FindAsync(temporadaId);
 
-            if(TemporadaActualizar == null)
+            if (TemporadaActualizar == null)
             {
                 return NotFound();
             }
 
-              
-              if(await TryUpdateModelAsync<Temporada>(TemporadaActualizar,"temporada",t => t.NumeroTemporada,t => t.NombreTemporada, t => t.Estado,t => t.Tipo,t => t.TemporadaEstreno))
-             {
+
+            if (await TryUpdateModelAsync<Temporada>(TemporadaActualizar, "temporada", t => t.NumeroTemporada, t => t.NombreTemporada, t => t.Estado, t => t.Tipo, t => t.TemporadaEstreno))
+            {
                 _context.ChangeTracker.DetectChanges();
-                Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
-                 await _context.SaveChangesAsync();
                 
-                 return RedirectToPage("./AnimesTemporadas");
-             }
-            
+                Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
+
+                // if(TemporadaActualizar.Estado.Equals("Visto")) // Viendo -> Visto
+                // {   
+                    
+                //      Historial registroHistorial = await _context.Historial.FindAsync(temporadaId);
+
+                // }
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./AnimesTemporadas");
+            }
+
 
             return Page();
         }
 
 
-       
+
     }
 }
