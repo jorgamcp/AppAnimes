@@ -29,7 +29,7 @@ namespace AppAnimes.Pages
         }
 
 
-        public async Task<IActionResult> OnGetAsync(int? pageIndex)
+        public async Task<IActionResult> OnGetAsync(int? pageIndex,int? id)
         {
 
             // Paginacion
@@ -38,21 +38,46 @@ namespace AppAnimes.Pages
             {
                 return RedirectToPage("Historial");
             }
+            ViewData["id"] = id;
+          
+            if(id != null) // Si hay un filtro de anime filtramos.
+            {
+                HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
+              from historial in _context.Historial
+              where historial.AnimeId == id
+              select new HistorialViewModel()
+              {
+                  idHistorial = historial.IdHistorial,
+                  id_anime = historial.Anime.AnimeId,
+                  id_temporada = historial.TemporadaId,
+                  NumeroTemporada = historial.Temporada.NumeroTemporada,
+                  NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
+                  fechaInicio = historial.FechaInicio,
+                  fechaFin = historial.FechaFin,
+                  VistoEn = historial.VistoEn
+              }, pageIndex ?? 1, pageSize);
 
-            HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
-                from historial in _context.Historial
-                select new HistorialViewModel()
-                {
-                    idHistorial = historial.IdHistorial,
-                    id_anime = historial.Anime.AnimeId,
-                    id_temporada = historial.TemporadaId,
-                    NumeroTemporada = historial.Temporada.NumeroTemporada,
-                    NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
-                    fechaInicio = historial.FechaInicio,
-                    fechaFin = historial.FechaFin,
-                    VistoEn = historial.VistoEn
-                }, pageIndex ?? 1, pageSize);
+                ViewData["nombreAnimeFiltrado"] = HistorialAnimesTemporadasPaginated[0].NombreAnimeTemporada;
+            }
+            else
+            {
+                HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
+              from historial in _context.Historial
+              select new HistorialViewModel()
+              {
+                  idHistorial = historial.IdHistorial,
+                  id_anime = historial.Anime.AnimeId,
+                  id_temporada = historial.TemporadaId,
+                  NumeroTemporada = historial.Temporada.NumeroTemporada,
+                  NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
+                  fechaInicio = historial.FechaInicio,
+                  fechaFin = historial.FechaFin,
+                  VistoEn = historial.VistoEn
+              }, pageIndex ?? 1, pageSize);
+            }
 
+
+          
 
 
             // BUSQUEDA

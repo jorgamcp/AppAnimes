@@ -1,12 +1,19 @@
 ﻿@page "{id:int?}"
 @model Pages.HistorialModel
 @{
- ViewData["Title"] = "Historial";
+    ViewData["Title"] = "Historial";
 }
 
+@* Si ViewData["Id"] no es nulo he dado click en ver historico anime en la pagina de temporadas y filtro solo por ese anime.*@
+@if (ViewData["id"] != null)
+{
+    <h3>Histórico del Anime @ViewData["nombreAnimeFiltrado"]</h3>
+}
+else
+{
+    <h3>Historial</h3>
+}
 
-
-<h3>Historial</h3>
 <div class="row">
     @*Cuadro busqueda*@
     <div class="col">
@@ -40,75 +47,81 @@
             <th>
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].AnyoVisto)
             </th>
-           
+
         </tr>
     </thead>
     <tbody>
-        @if(Model.HistorialAnimesTemporadasPaginated.ToList().Count == 0){
+        @if (Model.HistorialAnimesTemporadasPaginated.ToList().Count == 0)
+        {
             <tr col=5>
                 <td colspan="5" class="text-center"> No Hay Registros</td>
             </tr>
         }
-        else{
+        else
+        {
 
-        @foreach(var registroHistorial in Model.HistorialAnimesTemporadasPaginated){
-            
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => registroHistorial.idHistorial)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => registroHistorial.NumeroTemporada)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada) 
-                </td>
-                <td>
-                    @Html.DisplayFor(m => registroHistorial.fechaInicio) 
-                </td>
-                <td>
-                    @if(registroHistorial.fechaFin == null){
+            @foreach (var registroHistorial in Model.HistorialAnimesTemporadasPaginated)
+            {
 
-                        @("Actualmente Viendo.")
-                    }
-                    @Html.DisplayFor(m => registroHistorial.fechaFin) 
-                </td>
-                
-                <td>
-                    @if(registroHistorial.VistoEn == null)
-                    {
-                        @("-")
-                    }
-                    else{
-                        @Html.DisplayFor(m => registroHistorial.VistoEn)
-                    }
-                </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => registroHistorial.idHistorial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => registroHistorial.NumeroTemporada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => registroHistorial.fechaInicio)
+                    </td>
+                    <td>
+                        @if (registroHistorial.fechaFin == null)
+                        {
 
-                <td>
-                    @if(registroHistorial.AnyoVisto == null)
-                    {
-                        @("-")
-                    }
-                    else{
-                        @Html.DisplayFor(m => registroHistorial.AnyoVisto)
-                    }
-                </td>
-            </tr>
+                            @("Actualmente Viendo.")
+                        }
+                        @Html.DisplayFor(m => registroHistorial.fechaFin)
+                    </td>
+
+                    <td>
+                        @if (registroHistorial.VistoEn == null)
+                        {
+                            @("-")
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => registroHistorial.VistoEn)
+                        }
+                    </td>
+
+                    <td>
+                        @if (registroHistorial.AnyoVisto == null)
+                        {
+                            @("-")
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => registroHistorial.AnyoVisto)
+                        }
+                    </td>
+                </tr>
             }
-        }        
+        }
     </tbody>
 </table>
 
-@{ 
-    var prevDisabled = !Model.HistorialAnimesTemporadasPaginated.HasPreviousPage ?  "disabled" : "";
+@{
+    var prevDisabled = !Model.HistorialAnimesTemporadasPaginated.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HistorialAnimesTemporadasPaginated.HasNextPage ? "disabled" : "";
 }
 
 <a asp-page="./Historial"
    asp-route-pageIndex="@(Model.HistorialAnimesTemporadasPaginated.PageIndex - 1)"
    class="btn btn-outline-primary @prevDisabled">
-   Anterior
- </a>
+    Anterior
+</a>
 
 <a asp-page="./Historial"
    asp-route-pageIndex="@(Model.HistorialAnimesTemporadasPaginated.PageIndex +1)"
