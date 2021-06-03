@@ -53,7 +53,7 @@ namespace AppAnimes
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-          
+           
             app.UseRouting();
 
             app.UseAuthorization();

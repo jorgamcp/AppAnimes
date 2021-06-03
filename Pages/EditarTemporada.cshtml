@@ -1,5 +1,5 @@
 @page
-@model  aspnetcoreapp.Pages.Animes.EditarTemporadaModel
+@model aspnetcoreapp.Pages.Animes.EditarTemporadaModel
 @{
 
 
@@ -54,14 +54,33 @@ else
     <form method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
         <input type="hidden" asp-for="Temporada.TemporadaId" asp-route-AnimeId="@Model.Anime.AnimeId" class="form-control" />
+        
         <div class="form-group">
             <label asp-for="Temporada.NumeroTemporada"></label>
             <input asp-for="Temporada.NumeroTemporada" class="form-control disabled" />
         </div>
-        <div class="form-group">
-            <label asp-for="Temporada.NombreTemporada"></label>
-            <input asp-for="Temporada.NombreTemporada" class="form-control   />
-        </div>
+
+        @if (@ViewData["NombreTemporada"] != null)
+        {
+
+            <div>
+                <label asp-for="Temporada.NombreTemporada"></label>
+                <input asp-for="Temporada.NombreTemporada" class="form-control" />
+            </div>
+        }
+                else
+                {
+                    <div>
+                        <label asp-for="Anime.Nombre"></label>
+                        <input asp-for="Anime.Nombre" class="form-control"/>
+                    </div>
+                }
+        @*
+            <div class="form-group">
+                <label asp-for="Temporada.NombreTemporada"></label>
+                <input asp-for="Temporada.NombreTemporada" class="form-control   />
+            </div>
+        *@
 
         <div class="form-group">
             <label asp-for="Temporada.Tipo"></label>

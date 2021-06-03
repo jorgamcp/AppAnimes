@@ -71,33 +71,44 @@ namespace aspnetcoreapp.Pages.Animes
         }
 
 
-        public async Task<IActionResult> OnPostAsync(int? temporadaId)
+        public async Task<IActionResult> OnPostAsync(int? temporadaId,int? AnimeId)
         {
             Temporada TemporadaActualizar = await _context.Temporadas.FindAsync(temporadaId);
-
-            if (TemporadaActualizar == null)
+            Anime animeActualizar = await _context.Animes.FindAsync(AnimeId);
+            if (TemporadaActualizar == null || animeActualizar == null)
             {
                 return NotFound();
             }
-
-
-            if (await TryUpdateModelAsync<Temporada>(TemporadaActualizar, "temporada", t => t.NumeroTemporada, t => t.NombreTemporada, t => t.Estado, t => t.Tipo, t => t.TemporadaEstreno))
+            else  
             {
-                _context.ChangeTracker.DetectChanges();
-                
-                Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
+                if(await TryUpdateModelAsync<Anime>(animeActualizar,"anime", a => a.Nombre))
+                {
+                    _context.ChangeTracker.DetectChanges();
+                    Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
+                }
 
-                // if(TemporadaActualizar.Estado.Equals("Visto")) // Viendo -> Visto
-                // {   
-                    
-                //      Historial registroHistorial = await _context.Historial.FindAsync(temporadaId);
+                if (await TryUpdateModelAsync<Temporada>(TemporadaActualizar, "temporada", t => t.NumeroTemporada, t => t.NombreTemporada, t => t.Estado, t => t.Tipo, t => t.TemporadaEstreno))
+                {
+                    _context.ChangeTracker.DetectChanges();
 
-                // }
+                    Console.WriteLine(_context.ChangeTracker.DebugView.LongView);
 
-                await _context.SaveChangesAsync();
+                    // if(TemporadaActualizar.Estado.Equals("Visto")) // Viendo -> Visto
+                    // {   
 
-                return RedirectToPage("./AnimesTemporadas");
+                    //      Historial registroHistorial = await _context.Historial.FindAsync(temporadaId);
+
+                    // }
+
+
+                }
             }
+            
+                
+             
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./AnimesTemporadas");
 
 
             return Page();
