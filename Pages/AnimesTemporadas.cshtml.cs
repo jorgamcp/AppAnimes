@@ -44,7 +44,7 @@ namespace AppAnimes.Pages
 
         public async Task<IActionResult> OnGetAsync(int? pageIndex)
         {
-            var pageSize = 7; // Tamaño maximo  de filas que tiene la tabla.
+            int pageSize = 6; // Tamaño maximo  de filas que tiene la tabla.
             // si me introducen un pageindex < 1 redirigimos al index de AnimesTemporadas
             if (pageIndex <= 0)
             {
@@ -81,7 +81,7 @@ namespace AppAnimes.Pages
                    join t in _context.Temporadas on a equals t.Anime into atemp
                    from at in atemp.DefaultIfEmpty()
                    orderby a.Nombre
-                  where at.Anime.Nombre.Contains(searchString) || at.NombreTemporada.Contains(searchString) || a.NombreIngles.Contains(searchString)
+                   where at.Anime.Nombre.Contains(searchString) || at.NombreTemporada.Contains(searchString) || a.NombreIngles.Contains(searchString)
 
                    select new AnimesTemporadasViewModel()
                    {
@@ -100,6 +100,21 @@ namespace AppAnimes.Pages
 
 
             return Page();
+        }
+        public IActionResult OnGetFind(int id)
+        {
+            var temporada = _context.Temporadas.Find(id);
+            return new JsonResult(temporada);
+        }
+        public async Task<IActionResult> OnPostCambiarEstado(int id,string estado)
+        {
+            var temporada = _context.Temporadas.Find(id);
+
+            temporada.Estado = estado;
+
+            _context.Temporadas.Update(temporada);
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./AnimesTemporadas");
         }
 
 
