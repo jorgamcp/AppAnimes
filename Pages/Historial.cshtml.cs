@@ -33,7 +33,7 @@ namespace AppAnimes.Pages
         {
 
             // Paginacion
-            var pageSize = 10;
+            var pageSize = 100;
             if (pageIndex <= 0)
             {
                 return RedirectToPage("Historial");

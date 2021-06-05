@@ -17,6 +17,9 @@ else
 <div class="row">
     @*Cuadro busqueda*@
     <div class="col">
+        <div class="col-6">
+            <p>Los Animes que tienen un guion - <b>No tienen temporadas</b> porque son pelis.</p>
+        </div>
         <form>
             <p style="display:inline;">Buscar Anime: <input type="text" asp-for="searchString" /></p>
             <input type="submit" value="Buscar" />
@@ -30,6 +33,7 @@ else
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].idHistorial)
             </th>
             <th>
+               
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].NumeroTemporada)
             </th>
             <th>
@@ -68,7 +72,15 @@ else
                         @Html.DisplayFor(m => registroHistorial.idHistorial)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => registroHistorial.NumeroTemporada)
+                        @if (registroHistorial.NumeroTemporada == null)
+                        {
+                            @("-") @* Al ser pelicula no tiene numero de temporada mostramos un guion*@
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(m => registroHistorial.NumeroTemporada)
+
+                        }
                     </td>
                     <td>
                         @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada)

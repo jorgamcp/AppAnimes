@@ -104,6 +104,11 @@ namespace AppAnimes.Pages
         public IActionResult OnGetFind(int id)
         {
             var temporada = _context.Temporadas.Find(id);
+            //string anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).Select( a => a.Nombre).FirstOrDefault();
+            Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
+            
+            temporada.Anime = anime;
+            
             return new JsonResult(temporada);
         }
         public async Task<IActionResult> OnPostCambiarEstado(int id,string estado)
