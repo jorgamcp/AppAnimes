@@ -111,7 +111,7 @@ namespace aspnetcoreapp.Pages.Animes
             return RedirectToPage("./AnimesTemporadas");
 
 
-            return Page();
+           // return Page();
         }
 
 

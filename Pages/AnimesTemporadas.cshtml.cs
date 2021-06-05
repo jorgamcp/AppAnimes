@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AppAnimesNuevo;
+using System;
 
 namespace AppAnimes.Pages
 {
@@ -106,19 +107,49 @@ namespace AppAnimes.Pages
             var temporada = _context.Temporadas.Find(id);
             //string anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).Select( a => a.Nombre).FirstOrDefault();
             Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
-            
+            var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
             temporada.Anime = anime;
-            
+            temporada.Historials = historials;
             return new JsonResult(temporada);
         }
-        public async Task<IActionResult> OnPostCambiarEstado(int id,string estado)
+        public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, string paginavisto)
         {
-            var temporada = _context.Temporadas.Find(id);
+            Temporada temporada = _context.Temporadas.Find(id);
+            Historial historial = _context.Historial.Where(h => h.TemporadaId == id && h.FechaFin == null).FirstOrDefault();
 
-            temporada.Estado = estado;
 
+            // Si lo que esta en la base de datos antes de hacer la inserccion es visto entonces el cambio es de visto a viendo
+            if (temporada.Estado.Equals("Visto"))
+            {
+                // 1. Añadimos nuevo registro en historial
+
+                historial = new Historial();
+                historial.AnimeId = temporada.AnimeId;
+                historial.TemporadaId = temporada.TemporadaId;
+                historial.FechaInicio = DateTime.Now;
+                historial.FechaFin = null;
+                historial.VistoEn = paginavisto;
+
+                // 2. Establecemos el valor de estado a Viendo
+                temporada.Estado = estado;
+            }
+            else
+            {
+                // Si no quiere decir que he terminado de ver un anime y el cambio es de viendo a visto Actualizamos FechaFin que estará en Null.
+
+                historial.FechaFin = DateTime.Now;
+                // 2. Establecemos el valor de estado a Visto
+                temporada.Estado = estado;
+            }
+
+ 
+            // Actualizamos nuevos valores en la base de datos. 
             _context.Temporadas.Update(temporada);
+            _context.Historial.Update(historial);
+
             await _context.SaveChangesAsync();
+
+
             return RedirectToPage("./AnimesTemporadas");
         }
 

@@ -52,6 +52,10 @@ namespace AppAnimes.Pages.Animes
             animeNuevo.Temporadas = temporadas;
             await _context.Animes.AddAsync(animeNuevo); // Guarda tanto Anime como Temporada
 
+           
+
+            await _context.Historial.AddAsync(historial);
+
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./AnimesTemporadas");
