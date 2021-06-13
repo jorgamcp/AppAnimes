@@ -5,9 +5,18 @@
 }
 
 @* Si ViewData["Id"] no es nulo he dado click en ver historico anime en la pagina de temporadas y filtro solo por ese anime.*@
-@if (ViewData["id"] != null)
+@if (ViewData["id"] != null && ViewData["NumeroTemporada"] != null)
 {
-    <h3>Histórico del Anime @ViewData["nombreAnimeFiltrado"]</h3>
+    <div class="row">
+        <div class="col">
+            <h3>Histórico del Anime @ViewData["nombreAnimeFiltrado"]</h3>
+            <h4>y todas sus temporadas</h4>
+        </div>
+    </div>
+}
+else if (ViewData["id"] != null && ViewData["NumeroTemporada"] == null)
+{
+    <h3>Historial de la Pelicula @ViewData["nombreAnimeFiltrado"]</h3>
 }
 else
 {

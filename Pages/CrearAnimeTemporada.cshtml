@@ -25,7 +25,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Temporada.NumeroTemporada"></label>
-        <input asp-for="Temporada.NumeroTemporada" class="form-control" disabled />
+        <input asp-for="Temporada.NumeroTemporada" class="form-control" />
     </div>
     <div class="form-group">
         <label asp-for="Temporada.NombreTemporada"></label>
@@ -42,6 +42,10 @@
     <div class="form-group">
         <label asp-for="Temporada.TemporadaEstreno"></label>
         <input asp-for="Temporada.TemporadaEstreno" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Historial.VistoEn"></label>
+        <input asp-for="Historial.VistoEn" class="form-control" />
     </div>
     <div class="form-group">
         <input type="submit" value="Guardar" class="btn btn-primary" />
@@ -80,6 +84,13 @@
                     $("#Temporada_NumeroTemporada").val("1");
                     $("#Temporada_Estado").val("Viendo");
                     $("#Temporada_Tipo").val("SERIE");
+
+                    $("#Temporada_NumeroTemporada").change();
+                    $("#Temporada_Estado").change();
+                    $("#Temporada_Tipo").change();
+
+
+
                 }
                 else {
 
@@ -88,16 +99,27 @@
                         $("#Temporada_NumeroTemporada").val("No tiene es pelicula");
                         $("#Temporada_Estado").val(response[0].temporadas[0].estado);
                         $("#Temporada_Tipo").val(response[0].temporadas[0].tipo);
+
+                        $("#Temporada_NumeroTemporada").change();
+                        $("#Temporada_Estado").change();
+                        $("#Temporada_Tipo").change();
                     }
                     else {
                         if (response[0].temporadas.length === 0) {
                             $("#Temporada_NumeroTemporada").val("1");
 
+                            $("#Temporada_NumeroTemporada").change();
+                            $("#Temporada_Estado").change();
+                            $("#Temporada_Tipo").change();
                         }
                         else {
                             //  $("#Temporada_NumeroTemporada").val(response[0].temporadas[0].numeroTemporada + 1)
                             console.log('Numero Temporada Maximo: ' + response[0].temporadas[response[0].temporadas.length - 1].numeroTemporada);
                             $("#Temporada_NumeroTemporada").val(response[0].temporadas[response[0].temporadas.length - 1].numeroTemporada + 1);
+
+                            $("#Temporada_NumeroTemporada").change();
+                            $("#Temporada_Estado").change();
+                            $("#Temporada_Tipo").change();
 
                         }
                         $('.btn').removeAttr('disabled') // Rehabilita el boton de Guardar

@@ -20,7 +20,9 @@ namespace AppAnimes.Pages.Animes
         // Enlace de Modelo
         [BindProperty]
         public Temporada Temporada { get; set; }
-
+        // Enlace de Modelo
+        [BindProperty]
+        public Historial Historial { get; set; }
 
         public CrearAnimeTemporadaModel(AppAnimesDBContext context)
         {
@@ -29,34 +31,39 @@ namespace AppAnimes.Pages.Animes
 
         public IActionResult OnGet()
         {
-            
+
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync() // async. Clase Task
+        public async Task<IActionResult> OnPostAsync(Temporada temporada) // async. Clase Task
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            Anime animeNuevo = new Anime(); // Nuevo Anime que se va a insertar en la base de datos
-            Temporada temporada = new Temporada(); // Nueva Temporada que se va a insertar en la tabla temporadas.
-            HashSet<Temporada> temporadas = new HashSet<Temporada>();
+            Anime animeNuevo = Anime; // Nuevo Anime que se va a insertar en la base de datos
+            Temporada temporadaInsertar = new Temporada { Anime = animeNuevo, NumeroTemporada = Temporada.NumeroTemporada, NombreTemporada = Temporada.NombreTemporada, Estado = Temporada.Estado, Tipo = Temporada.Tipo, TemporadaEstreno = Temporada.TemporadaEstreno }; // Nueva Temporada que se va a insertar en la tabla temporadas.
+            Historial historial = Historial; // Nuevo registro que se va a insertar en Historial.
+                                             // animeNuevo = Anime;
+                                             // temporada.Tipo = "SERIE"; // ES SERIE
+                                             // temporada = Temporada;
 
-            animeNuevo = Anime;
-            temporada.Tipo = "SERIE"; // ES SERIE
-            temporada = Temporada;
-            temporadas.Add(temporada);
-            animeNuevo.Temporadas = temporadas;
+
+            animeNuevo.Temporadas.Add(temporadaInsertar);
+            animeNuevo.Historials.Add(new Historial { IdHistorial = 0, AnimeId = animeNuevo.AnimeId, Temporada = temporadaInsertar, FechaInicio = DateTime.Now, FechaFin = null, VistoEn = Historial.VistoEn, AnyoVisto = null });
+
+
             await _context.Animes.AddAsync(animeNuevo); // Guarda tanto Anime como Temporada
 
-           
 
-            await _context.Historial.AddAsync(historial);
+
 
             await _context.SaveChangesAsync();
+
+
+
 
             return RedirectToPage("./AnimesTemporadas");
         }

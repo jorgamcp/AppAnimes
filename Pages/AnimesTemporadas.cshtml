@@ -79,9 +79,10 @@
                     <div class="modal-footer">
                         <input type="button" class="btn btn-primary" data-dismiss="modal" value="Cancelar" />
                         <input type="submit" class="btn btn-info" value="Actualizar Estado" />
+                        <!-- Poner hidden a estos tres campos-->
                         <input type="hidden" name="Id" id="id" />
-                        <input type="hidden" name="estado" id="estado" />
-                        <input type="hidden" name="paginavisto" id="paginavisto"/>
+                        <input type="hidden"  name="estado" id="estado" />
+                        <input type="hidden"  name="paginavisto" id="paginavisto"/>
                     </div>
                 </form>
 
@@ -255,7 +256,7 @@
                     success: function (result) {
                         $('#edit-modal #estado').val(result.estado);
                         $('#edit-modal #paginavisto').val(result.paginavisto);
-                        $('#edit-modal #titulo-modal').val(result.anime.nombre+ " "+ result.nombreTemporada).val();
+                        $('#edit-modal #titulo-modal').val(result.anime.nombre+ " "+ result.nombreTemporada);
                     }
 
 

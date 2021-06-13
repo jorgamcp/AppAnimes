@@ -16,7 +16,7 @@ namespace AppAnimes.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly AppAnimesDBContext _context;
 
-        // public IList<HistorialViewModel> HistorialAnimesTemporadas { get; set; }
+      
         public PaginatedList<HistorialViewModel> HistorialAnimesTemporadasPaginated { get; set; }
 
         [BindProperty(SupportsGet = true)]//Enlace Modelo Soporta GET
@@ -51,13 +51,19 @@ namespace AppAnimes.Pages
                   id_anime = historial.Anime.AnimeId,
                   id_temporada = historial.TemporadaId,
                   NumeroTemporada = historial.Temporada.NumeroTemporada,
+                  NombreAnime = historial.Anime.Nombre,
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
                   VistoEn = historial.VistoEn
               }, pageIndex ?? 1, pageSize);
 
-                ViewData["nombreAnimeFiltrado"] = HistorialAnimesTemporadasPaginated[0].NombreAnimeTemporada;
+
+                
+
+
+                ViewData["nombreAnimeFiltrado"] = HistorialAnimesTemporadasPaginated[0].NombreAnime;
+                ViewData["NumeroTemporada"] = HistorialAnimesTemporadasPaginated[0].NumeroTemporada;
             }
             else
             {
@@ -103,27 +109,7 @@ namespace AppAnimes.Pages
             }
 
 
-            /*
-              List<HistorialViewModel> historialIQ = await
-                 (
-                     from historial in _context.Historials
-                     select new HistorialViewModel()
-                     {
-                         idHistorial = historial.IdHistorial,
-                         id_anime = historial.Anime.AnimeId,
-                         id_temporada = historial.TemporadaId,
-                         NumeroTemporada = historial.Temporada.NumeroTemporada,
-                         NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
-                         fechaInicio = historial.FechaInicio,
-                         fechaFin = historial.FechaFin,
-                         fechaPausa = historial.FechaPausa,
-                         VistoEn = historial.VistoEn
-                     }).AsNoTracking().ToListAsync();
-             HistorialAnimesTemporadas = historialIQ;
-             */
-
-            // Ordenar por fecha descentente : .OrderByDescending(h => h.fechaInicio)
-
+     
 
 
             return Page();

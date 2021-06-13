@@ -22,7 +22,6 @@ namespace AppAnimes.Pages
         Consultamos con Language Integrated Query (LINQ) a dbcontext de la aplicacion 
         y generamos un nuevo objeto que será lo que verá el usuario en la vista Razor Pages 
         llamado AnimesTemporadasViewModel que contiene datos tanto de la tabla Animestest como de la tabla TemporadasTest en una unica View o Vista.
-    
     */
     public class AnimesTemporadasModel : PageModel
     {
@@ -33,7 +32,7 @@ namespace AppAnimes.Pages
         public PaginatedList<AnimesTemporadasViewModel> animesTemporadasPaginated { get; set; }
         public AnimesTemporadasViewModel animesTemporadasViewModel { get; set; }
 
-        [BindProperty(SupportsGet = true)]//Enlace Modelo Soporta GET
+        [BindProperty(SupportsGet = true)] //Enlace Modelo Soporta GET esto se aplica a la variable searchstring
         public string searchString { get; set; } // cadena busqueda
         public AnimesTemporadasModel(ILogger<IndexModel> logger, AppAnimesDBContext context)
         {
@@ -102,6 +101,13 @@ namespace AppAnimes.Pages
 
             return Page();
         }
+
+        /*
+            Metodo OnGetFind(int id)
+            Metodo que devuelve un JSON con la informacion del anime, se pasa el id a la base de datos.
+            Para llamar a este metodo desde JS JQuery se llama Find omitimos OnGet.
+        */
+
         public IActionResult OnGetFind(int id)
         {
             var temporada = _context.Temporadas.Find(id);
@@ -142,7 +148,7 @@ namespace AppAnimes.Pages
                 temporada.Estado = estado;
             }
 
- 
+
             // Actualizamos nuevos valores en la base de datos. 
             _context.Temporadas.Update(temporada);
             _context.Historial.Update(historial);

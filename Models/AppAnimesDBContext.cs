@@ -80,7 +80,7 @@ namespace AppAnimes.Models
                 entity.HasOne(d => d.Anime)
                     .WithMany(p => p.Historials)
                     .HasForeignKey(d => d.AnimeId)
-                    .OnDelete(DeleteBehavior.NoAction)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Historial_Animes");
 
 
@@ -116,7 +116,7 @@ namespace AppAnimes.Models
                 entity.HasOne(d => d.Anime)
                     .WithMany(p => p.Temporadas)
                     .HasForeignKey(d => d.AnimeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Temporadas_Animes");
             });
 
