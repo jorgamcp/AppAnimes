@@ -1,0 +1,77 @@
+@page
+@model AppAnimes.Pages.Animes.EliminarAnimeModel
+@{
+
+    ViewData["Title"] = "Crear Anime y agregar informacion temporada ";
+    var palabra = "temporada";
+}
+
+
+@if (ViewData["NumeroTemporada"] == null)
+{
+    <h1>Eliminar Pelicula @ViewData["NombreAnime"]</h1>
+    <table class="table">
+        <tr>
+            <td>Nombre Pelicula Anime</td>
+
+        </tr>
+        <tr>
+            <td>@ViewData["NombreAnime"]</td>
+
+        </tr>
+    </table>
+
+    <p>¿Realmente quieres eliminar de la base de datos esta película</p>
+    <b> Esta acción no se puede deshacer</b>
+
+
+}
+else
+@if (ViewData["NumeroTemporada"].Equals(1))
+{
+    <h3>Eliminar Temporada 1 y TODAS LAS TEMPORADAS del Anime @ViewData["NombreAnime"]</h3>
+    @palabra
+    <table class="table">
+        <tr>
+            <td>Nombre Anime</td>
+            <td>Nombre Temporada</td>
+        </tr>
+        <tr>
+            <td>@ViewData["NombreAnime"]</td>
+            <td>@ViewData["NombreTemporada"]</td>
+        </tr>
+    </table>
+
+    <p>¿Realmente quieres eliminar de la base de datos esta @palabra</p>
+    <b> Esta acción no se puede deshacer</b>
+
+
+}
+else
+{
+    <h3>Eliminar Temporada del Anime @ViewData["NombreAnime"]</h3>
+    <table class="table">
+        <tr>
+            <td>Nombre Anime</td>
+            <td>Nombre Temporada</td>
+        </tr>
+        <tr>
+            <td>@ViewData["NombreAnime"]</td>
+            <td>@ViewData["NombreTemporada"]</td>
+        </tr>
+    </table>
+
+    <p>¿Realmente quieres eliminar de la base de datos esta @palabra</p>
+
+
+}
+
+<div class="row">
+    <form method="POST">
+        <input type="hidden" asp-for="@Model.Anime.AnimeId">
+        <input type="submit" value="Entiendo, Eliminar" class="btn btn-lg btn-danger" />
+    </form>
+</div>
+<div class="row">
+    <a asp-page="AnimesTemporadas">Volver al listado</a>
+</div>
