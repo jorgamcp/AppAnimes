@@ -54,7 +54,7 @@ namespace AppAnimes.Pages.Animes
             animeNuevo.Temporadas.Add(temporadaInsertar);
             animeNuevo.Historials.Add(new Historial { IdHistorial = 0, AnimeId = animeNuevo.AnimeId, Temporada = temporadaInsertar, FechaInicio = DateTime.Now, FechaFin = null, VistoEn = Historial.VistoEn, AnyoVisto = null });
 
-
+            
             await _context.Animes.AddAsync(animeNuevo); // Guarda tanto Anime como Temporada
 
 

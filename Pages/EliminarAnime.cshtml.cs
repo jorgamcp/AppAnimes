@@ -36,8 +36,7 @@ namespace AppAnimes.Pages.Animes
             Anime = await _context.Animes.FindAsync(AnimeId);
 
             int numeroTemporadas = await _context.Temporadas.Where(a => a.AnimeId == AnimeId).CountAsync();
-
-            int x = 0;
+ 
             ViewData["NombreAnime"] = Anime.Nombre;
             ViewData["NombreTemporada"] = Temporada.NombreTemporada;
             ViewData["NumeroTemporada"] = Temporada.NumeroTemporada;
@@ -54,7 +53,7 @@ namespace AppAnimes.Pages.Animes
             Anime = await _context.Animes.FindAsync(AnimeId);
             if (Anime != null)
             {
-                _context.Animes.Remove(Anime);
+                _context.Animes.Remove(Anime); // Borra tanto animes, temporadas e Historial
                 await _context.SaveChangesAsync();
             }
             else

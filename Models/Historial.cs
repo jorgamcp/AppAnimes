@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -12,6 +13,8 @@ namespace AppAnimes.Models
         public int? TemporadaId { get; set; }
         public DateTime? FechaInicio { get; set; }
         public DateTime? FechaFin { get; set; }
+
+        [Required(ErrorMessage ="La página donde se vió/esta viendo es obligatoria.")]
         public string VistoEn { get; set; }
 
         public int? AnyoVisto{get;set;} // Si no se conoce la fecha en la que se vio el anime.

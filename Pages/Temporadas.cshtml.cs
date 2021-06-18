@@ -22,26 +22,28 @@ namespace aspnetcoreapp.Pages.Animes
 
         public IActionResult OnGet()
         {
-            
-             var x = (from a in _context.Animes
-                        join t in _context.Temporadas on a.AnimeId equals t.AnimeId into atemp 
-                       from at in atemp  where at.Tipo == ANIME_TIPO_SERIE  select new SelectListItem
-                       {
-                           Value = at.AnimeId.ToString(),
-                           Text = at.Anime.Nombre
-                       }).Distinct();
-           
-            
+
+            var x = (from a in _context.Animes
+                     join t in _context.Temporadas on a.AnimeId equals t.AnimeId into atemp
+                     from at in atemp
+                     where at.Tipo == ANIME_TIPO_SERIE
+                     select new SelectListItem
+                     {
+                         Value = at.AnimeId.ToString(),
+                         Text = at.Anime.Nombre
+                     }).Distinct();
+
+
             // ViewData["AnimeId"] = new SelectList(_context.Animes, "AnimeId", "Nombre");
-            ViewData["AnimeId"] = x ;
-           
+            ViewData["AnimeId"] = x;
 
 
-             
+
+
             return Page();
         }
 
-        public  IActionResult OnGetObtenerUltimoNumeroTemporada(int? id_anime)
+        public IActionResult OnGetObtenerUltimoNumeroTemporada(int? id_anime)
         {
             if (id_anime == null)
             {
@@ -53,10 +55,10 @@ namespace aspnetcoreapp.Pages.Animes
                                    from at in animestempo.DefaultIfEmpty()
                                    select animes.Temporada.First();*/
 
-            var numeroTemporada =  (from t in _context.Temporadas
-                                  where t.AnimeId == id_anime
-                                 
-                                  select   t.NumeroTemporada);
+            var numeroTemporada = (from t in _context.Temporadas
+                                   where t.AnimeId == id_anime
+
+                                   select t.NumeroTemporada);
 
 
 
@@ -64,8 +66,8 @@ namespace aspnetcoreapp.Pages.Animes
             {
                 return new JsonResult("Error Ani_0001");
             }
-             
-           
+
+
             return new JsonResult(numeroTemporada);
         }
 
@@ -78,6 +80,20 @@ namespace aspnetcoreapp.Pages.Animes
         {
             if (!ModelState.IsValid)
             {
+                var x = (from a in _context.Animes
+                         join t in _context.Temporadas on a.AnimeId equals t.AnimeId into atemp
+                         from at in atemp
+                         where at.Tipo == ANIME_TIPO_SERIE
+                         select new SelectListItem
+                         {
+                             Value = at.AnimeId.ToString(),
+                             Text = at.Anime.Nombre
+                         }).Distinct();
+
+
+                // ViewData["AnimeId"] = new SelectList(_context.Animes, "AnimeId", "Nombre");
+                ViewData["AnimeId"] = x;
+
                 return Page();
             }
 
@@ -90,4 +106,3 @@ namespace aspnetcoreapp.Pages.Animes
 }
 
 
- 

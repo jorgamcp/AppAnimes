@@ -12,40 +12,48 @@
     <div class="form-group">
         <label asp-for="Anime.Nombre" class="control-label"></label>
         <input asp-for="Anime.Nombre" class="form-control" />
+        <span asp-validation-for="Anime.Nombre" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Anime.Genero"></label>
         <input asp-for="Anime.Genero" class="form-control" />
-        <span asp-validation-for="Anime.Genero"></span>
+        <span asp-validation-for="Anime.Genero" class="text-danger"></span>
+
     </div>
     <div class="form-group">
         <label asp-for="Anime.NombreIngles"></label>
         <input asp-for="Anime.NombreIngles" class="form-control" />
-        <span asp-validation-for="Anime.NombreIngles"></span>
+        <span asp-validation-for="Anime.NombreIngles" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Temporada.NumeroTemporada"></label>
         <input asp-for="Temporada.NumeroTemporada" class="form-control" />
+        <span asp-validation-for="Temporada.NumeroTemporada" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Temporada.NombreTemporada"></label>
         <input asp-for="Temporada.NombreTemporada" class="form-control" />
+        <span asp-validation-for="Temporada.NombreTemporada" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Temporada.Estado"></label>
         <input asp-for="Temporada.Estado" class="form-control" />
+        <span asp-validation-for="Temporada.Estado" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Temporada.Tipo"></label>
         <input asp-for="Temporada.Tipo" class="form-control" />
+        <span asp-validation-for="Temporada.Tipo" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Temporada.TemporadaEstreno"></label>
         <input asp-for="Temporada.TemporadaEstreno" class="form-control" />
+        <span asp-validation-for="Temporada.TemporadaEstreno" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Historial.VistoEn"></label>
         <input asp-for="Historial.VistoEn" class="form-control" />
+        <span asp-validation-for="Historial.VistoEn" class="text-danger"></span>
     </div>
     <div class="form-group">
         <input type="submit" value="Guardar" class="btn btn-primary" />
