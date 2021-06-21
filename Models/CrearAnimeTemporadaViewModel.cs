@@ -5,7 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
- 
+using System.ComponentModel.DataAnnotations;
+using AppAnimesNuevo.Models;
 
 namespace AppAnimes.Models
 {
@@ -13,6 +14,7 @@ namespace AppAnimes.Models
     {
 
         [DisplayName("Nombre Anime")]
+        [EsUnicoAnime]
         public string Nombre { get; set; } // Columna Nombre TBL  Animes
         [DisplayName("Genero")]
         public string Genero { get; set; } // Columna Genero TBL  Animes

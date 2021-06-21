@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
  
 namespace AppAnimes.Models
 {
-    public partial class Anime
+    public partial class Anime 
     {
         public Anime()
         {

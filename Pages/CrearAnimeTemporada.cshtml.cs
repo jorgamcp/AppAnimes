@@ -43,6 +43,9 @@ namespace AppAnimes.Pages.Animes
                 return Page();
             }
 
+
+
+
             Anime animeNuevo = Anime; // Nuevo Anime que se va a insertar en la base de datos
             Temporada temporadaInsertar = new Temporada { Anime = animeNuevo, NumeroTemporada = Temporada.NumeroTemporada, NombreTemporada = Temporada.NombreTemporada, Estado = Temporada.Estado, Tipo = Temporada.Tipo, TemporadaEstreno = Temporada.TemporadaEstreno }; // Nueva Temporada que se va a insertar en la tabla temporadas.
             Historial historial = Historial; // Nuevo registro que se va a insertar en Historial.
@@ -54,7 +57,30 @@ namespace AppAnimes.Pages.Animes
             animeNuevo.Temporadas.Add(temporadaInsertar);
             animeNuevo.Historials.Add(new Historial { IdHistorial = 0, AnimeId = animeNuevo.AnimeId, Temporada = temporadaInsertar, FechaInicio = DateTime.Now, FechaFin = null, VistoEn = Historial.VistoEn, AnyoVisto = null });
 
-            
+
+            // TODO: Comprobar que el anime que se ha insertado no existe previamente en la base de datos
+
+
+
+
+            IQueryable<string> NombreAnime = from a in _context.Animes where a.Nombre == Anime.Nombre select a.Nombre;
+            IQueryable<int> AnimeIdObtenido = from a in _context.Animes where a.Nombre == Anime.Nombre select a.AnimeId;
+            IQueryable<int?> UltimonumeroTemporadaBBDD = from temporadas in _context.Temporadas where temporadas.AnimeId == AnimeIdObtenido.First() select temporadas.NumeroTemporada;
+
+
+
+
+            int? ultimonumeroObtenido = UltimonumeroTemporadaBBDD.FirstOrDefault();
+            string nombreAnimeObtenido = NombreAnime.FirstOrDefault();
+            if (ultimonumeroObtenido != null || !NombreAnime.Equals(null))
+            {
+                if (ultimonumeroObtenido <= Temporada.NumeroTemporada)
+                {
+                    ModelState.AddModelError("Nombre", "El Anime " + Anime.Nombre + " ya existe en la base de datos");
+                    return Page();
+                }
+            }
+
             await _context.Animes.AddAsync(animeNuevo); // Guarda tanto Anime como Temporada
 
 
@@ -67,5 +93,8 @@ namespace AppAnimes.Pages.Animes
 
             return RedirectToPage("./AnimesTemporadas");
         }
+
+
     }
 }
+
