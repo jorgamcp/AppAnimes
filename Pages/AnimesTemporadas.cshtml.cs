@@ -1,9 +1,7 @@
 using AppAnimes.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AppAnimesNuevo;
@@ -56,7 +54,7 @@ namespace AppAnimes.Pages
                      from a in _context.Animes
                      join t in _context.Temporadas on a equals t.Anime into atemp
                      from at in atemp.DefaultIfEmpty()
-                     orderby a.Nombre
+                     orderby at.Estado
                      select new AnimesTemporadasViewModel()
                      {
                          id_anime = a.AnimeId,
@@ -80,7 +78,7 @@ namespace AppAnimes.Pages
                    from a in _context.Animes
                    join t in _context.Temporadas on a equals t.Anime into atemp
                    from at in atemp.DefaultIfEmpty()
-                   orderby a.Nombre
+                   orderby at.Estado
                    where at.Anime.Nombre.Contains(searchString) || at.NombreTemporada.Contains(searchString) || a.NombreIngles.Contains(searchString)
 
                    select new AnimesTemporadasViewModel()

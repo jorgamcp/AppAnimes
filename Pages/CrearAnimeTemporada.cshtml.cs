@@ -59,27 +59,25 @@ namespace AppAnimes.Pages.Animes
 
 
             // TODO: Comprobar que el anime que se ha insertado no existe previamente en la base de datos
-
-
-
-
+ 
             IQueryable<string> NombreAnime = from a in _context.Animes where a.Nombre == Anime.Nombre select a.Nombre;
             IQueryable<int> AnimeIdObtenido = from a in _context.Animes where a.Nombre == Anime.Nombre select a.AnimeId;
             IQueryable<int?> UltimonumeroTemporadaBBDD = from temporadas in _context.Temporadas where temporadas.AnimeId == AnimeIdObtenido.First() select temporadas.NumeroTemporada;
 
 
 
+            // BUG : THIS CODE DOESN'T WORK!
 
-            int? ultimonumeroObtenido = UltimonumeroTemporadaBBDD.FirstOrDefault();
-            string nombreAnimeObtenido = NombreAnime.FirstOrDefault();
-            if (ultimonumeroObtenido != null || !NombreAnime.Equals(null))
-            {
-                if (ultimonumeroObtenido <= Temporada.NumeroTemporada)
-                {
-                    ModelState.AddModelError("Nombre", "El Anime " + Anime.Nombre + " ya existe en la base de datos");
-                    return Page();
-                }
-            }
+            // int? ultimonumeroObtenido = UltimonumeroTemporadaBBDD.FirstOrDefault();
+            // string nombreAnimeObtenido = NombreAnime.FirstOrDefault();
+            // if (ultimonumeroObtenido != null || !NombreAnime.Equals(null))
+            // {
+            //     if (ultimonumeroObtenido <= Temporada.NumeroTemporada)
+            //     {
+            //         ModelState.AddModelError("Nombre", "El Anime " + Anime.Nombre + " ya existe en la base de datos");
+            //         return Page();
+            //     }
+            // }
 
             await _context.Animes.AddAsync(animeNuevo); // Guarda tanto Anime como Temporada
 

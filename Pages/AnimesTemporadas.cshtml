@@ -49,7 +49,8 @@
         <div class="col-6">
             <form>
                 <div class="d-flex pt-3 pb-3">
-                    <input type="text" id="searchString" name="searchString" value="" class="form-control form-control-sm w-50" />
+                    <input type="text" id="searchString" name="searchString" value=""
+                        class="form-control form-control-sm w-50" />
                     <input type="submit" value="Buscar Anime" class="btn btn-sm btn-primary w-25 mx-auto" />
                 </div>
             </form>
@@ -69,11 +70,11 @@
                     </div>
                     <div class="modal-body" id="content">
                         <div class="form-group">
-                            <h4 id="titulo-modal">Cambiando  Estado <span id="titulo-modal"></span></h4>
-                            <label >Estado:</label>
+                            <h4 id="titulo-modal">Cambiando Estado <span id="titulo-modal"></span></h4>
+                            <label>Estado:</label>
                             <input name="estado" id="estado" type="text" class="form-control" required="true" />
                             <label>¿Donde se ha visto el Anime?:</label>
-                            <input name="paginavisto" id="paginavisto" type="text" class="form-control"/>
+                            <input name="paginavisto" id="paginavisto" type="text" class="form-control" />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -81,8 +82,8 @@
                         <input type="submit" class="btn btn-info" value="Actualizar Estado" />
                         <!-- Poner hidden a estos tres campos-->
                         <input type="hidden" name="Id" id="id" />
-                        <input type="hidden"  name="estado" id="estado" />
-                        <input type="hidden"  name="paginavisto" id="paginavisto"/>
+                        <input type="hidden" name="estado" id="estado" />
+                        <input type="hidden" name="paginavisto" id="paginavisto" />
                     </div>
                 </form>
 
@@ -134,84 +135,126 @@
                 @foreach (var animetemporadasjuntos in Model.animesTemporadasPaginated)
                 {
 
-                <tr>
+                    <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => animetemporadasjuntos.id_anime)
-                    </td>
-
-                    @if (animetemporadasjuntos.NumeroTemporada == null)
-                    {
                         <td>
-                            <i>-</i>
+                            @Html.DisplayFor(modelItem => animetemporadasjuntos.id_anime)
                         </td>
-                    }
-                    else
-                    {
+
+                        @if (animetemporadasjuntos.NumeroTemporada == null)
+                        {
+                            <td>
+                                <i>-</i>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => animetemporadasjuntos.NumeroTemporada)
+
+                            </td>
+                        }
+                        @* Si el nombre del anime es muy largo mas de 35 letras lo acortamos.*@
+                        @if (animetemporadasjuntos.NombreAnimeTemporada.ToCharArray().Count() > 30)
+                        {
+                            <td>
+                                @{
+                                    var nombre = animetemporadasjuntos.NombreAnimeTemporada;
+                                    string cadena =  "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\" " + nombre +" \" >";
+                                }
+                                @Html.Raw(cadena+animetemporadasjuntos.NombreAnimeTemporada.Substring(0,20)+"... </span>")
+                                <input type="hidden" name="NombreTemporada" id="NombreTemporada"
+                            value="@animetemporadasjuntos.NombreAnimeTemporada" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => animetemporadasjuntos.NombreAnimeTemporada)
+                                <input type="hidden" name="NombreTemporada" id="NombreTemporada"
+                            value="@animetemporadasjuntos.NombreAnimeTemporada" />
+                            </td>
+
+                        }
+
+
                         <td>
-                            @Html.DisplayFor(modelItem => animetemporadasjuntos.NumeroTemporada)
-
+                            @Html.DisplayFor(modelItem => animetemporadasjuntos.genero)
                         </td>
-                    }
+
+                        @* Si el nombre en ingles es muy largo tambien lo acortamos*@
+                        @if (animetemporadasjuntos.nombreEnIngles.ToCharArray().Count() > 30)
+                        {
+                            <td>
+                                @Html.Raw(animetemporadasjuntos.nombreEnIngles.Substring(0,20)+"...")
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                 @Html.DisplayFor(modelItem => animetemporadasjuntos.nombreEnIngles) 
+
+                            </td>
+                        }
 
 
-                    <td>
-                        @Html.DisplayFor(modelItem => animetemporadasjuntos.NombreAnimeTemporada)
-                        <input type="hidden" name="NombreTemporada" id="NombreTemporada" value="@animetemporadasjuntos.NombreAnimeTemporada" />
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => animetemporadasjuntos.genero)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => animetemporadasjuntos.nombreEnIngles)
-                    </td>
-
-                    <td>
-                        @*@Html.DisplayFor(modelItem => animetemporadasjuntos.estado)*@
-                        <a href="#edit-modal" class="edit" data-toggle="modal"><i data-toggle="tooltip" class="badge badge-pill badge-success">@animetemporadasjuntos.estado</i></a>
-                        <input type="hidden" name="id" id="id" value="@animetemporadasjuntos.id_temporada" />
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => animetemporadasjuntos.tipo)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => animetemporadasjuntos.temporada_estreno)
-                    </td>
-
-                    @if (animetemporadasjuntos.NumeroTemporada == null)
-                    {
                         <td>
-                            <a class="btn btn-sm btn-info" asp-page="./EditarTemporada"
-                               asp-route-temporadaId="@animetemporadasjuntos.id_temporada"
-                               asp-route-AnimeId="@animetemporadasjuntos.id_anime">Editar</a>
+                            @*@Html.DisplayFor(modelItem => animetemporadasjuntos.estado)*@
+
+                            @if(animetemporadasjuntos.estado.Equals("Visto",StringComparison.InvariantCultureIgnoreCase)){
+
+                            <a href="#edit-modal" class="edit" data-toggle="modal"><i data-toggle="tooltip"
+                                class="badge badge-pill badge-success">@animetemporadasjuntos.estado</i></a>
+                            <input type="hidden" name="id" id="id" value="@animetemporadasjuntos.id_temporada" />
+                            }
+                            else if(animetemporadasjuntos.estado.Equals("Viendo",StringComparison.InvariantCultureIgnoreCase)){
+                                <a href="#edit-modal" class="edit" data-toggle="modal"><i data-toggle="tooltip"
+                                class="badge badge-pill badge-warning">@animetemporadasjuntos.estado</i></a>
+                            <input type="hidden" name="id" id="id" value="@animetemporadasjuntos.id_temporada" />
+                            }
+
+
                         </td>
-                    }
-                    else
-                    {
+
                         <td>
-                            <a class="btn btn-sm btn-warning" asp-page="./EditarTemporada"
-                               asp-route-temporadaId="@animetemporadasjuntos.id_temporada"
-                               asp-route-AnimeId="@animetemporadasjuntos.id_anime">Editar</a>
+                            @Html.DisplayFor(modelItem => animetemporadasjuntos.tipo)
                         </td>
-                    }
+
+                        <td>
+                            @Html.DisplayFor(modelItem => animetemporadasjuntos.temporada_estreno)
+                        </td>
+
+                        @if (animetemporadasjuntos.NumeroTemporada == null)
+                        {
+                            <td>
+                                <a class="btn btn-sm btn-info" asp-page="./EditarTemporada"
+                            asp-route-temporadaId="@animetemporadasjuntos.id_temporada"
+                            asp-route-AnimeId="@animetemporadasjuntos.id_anime">Editar</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a class="btn btn-sm btn-warning" asp-page="./EditarTemporada"
+                            asp-route-temporadaId="@animetemporadasjuntos.id_temporada"
+                            asp-route-AnimeId="@animetemporadasjuntos.id_anime">Editar</a>
+                            </td>
+                        }
 
 
 
 
-                    <td>
-                        <a class="btn btn-sm btn-danger" asp-page="./EliminarAnime" asp-route-AnimeId="@animetemporadasjuntos.id_anime" 
-                        asp-route-TemporadaId="@animetemporadasjuntos.id_temporada">Eliminar</a>
-                    </td>
+                        <td>
+                            <a class="btn btn-sm btn-danger" asp-page="./EliminarAnime"
+                            asp-route-AnimeId="@animetemporadasjuntos.id_anime"
+                            asp-route-TemporadaId="@animetemporadasjuntos.id_temporada">Eliminar</a>
+                        </td>
 
-                    <td>
-                        <a asp-page="/Historial" asp-route-id="@animetemporadasjuntos.id_anime"
-                           class="btn btn-sm btn-secondary"> Histórico</a>
-                    </td>
-                </tr>
+                        <td>
+                            <a asp-page="/Historial" asp-route-id="@animetemporadasjuntos.id_anime"
+                            class="btn btn-sm btn-secondary"> Histórico</a>
+                        </td>
+                    </tr>
                 }
 
 
@@ -224,46 +267,46 @@
         }
 
         <a asp-page="./AnimesTemporadas" asp-route-pageIndex="@(Model.animesTemporadasPaginated.PageIndex - 1)"
-           class="btn btn-primary @prevDisabled mr-3">
+            class="btn btn-primary @prevDisabled mr-3">
             Anterior
         </a>
         <a asp-page="./AnimesTemporadas" asp-route-pageIndex="@(Model.animesTemporadasPaginated.PageIndex + 1)"
-           class="btn btn-primary @nextDisabled">
+            class="btn btn-primary @nextDisabled">
             Siguiente
         </a>
 
-       
+
 
     </section>
 
     @section scripts{
-        <script>
+    <script>
 
-            $('[data-toggle-tooltip]').tooltip();
+        $('[data-toggle-tooltip]').tooltip();
 
-            $('table .edit').on('click', function () {
-                var id = $(this).parent().find('#id').val();
-                var titulo = $(this).parent().find('#NombreTemporada').val();
-                var estado = $(this).parent().find('#estado').val();
-                var paginavisto = $(this).parent().find('#paginavisto').val();
-                
-              //  alert(id);
-                $('#edit-modal #id').val(id);
-                $('#edit-modal #titulo-modal').val(titulo);
-                $.ajax({
-                    type: 'GET',
-                    data: { id: id, estado: estado, nombreTemporada: titulo, paginavisto : paginavisto },
-                    url: '@Url.Page("AnimesTemporadas","Find")',
-                    success: function (result) {
-                        $('#edit-modal #estado').val(result.estado);
-                        $('#edit-modal #paginavisto').val(result.paginavisto);
-                        $('#edit-modal #titulo-modal').val(result.anime.nombre+ " "+ result.nombreTemporada);
-                    }
+        $('table .edit').on('click', function () {
+            var id = $(this).parent().find('#id').val();
+            var titulo = $(this).parent().find('#NombreTemporada').val();
+            var estado = $(this).parent().find('#estado').val();
+            var paginavisto = $(this).parent().find('#paginavisto').val();
 
+            //  alert(id);
+            $('#edit-modal #id').val(id);
+            $('#edit-modal #titulo-modal').val(titulo);
+            $.ajax({
+                type: 'GET',
+                data: { id: id, estado: estado, nombreTemporada: titulo, paginavisto: paginavisto },
+                url: '@Url.Page("AnimesTemporadas","Find")',
+                success: function (result) {
+                    $('#edit-modal #estado').val(result.estado);
+                    $('#edit-modal #paginavisto').val(result.paginavisto);
+                    $('#edit-modal #titulo-modal').val(result.anime.nombre + " " + result.nombreTemporada);
+                }
 
-                });
 
             });
 
-        </script>
+        });
+
+    </script>
     }

@@ -42,7 +42,7 @@ else
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].idHistorial)
             </th>
             <th>
-               
+
                 @Html.DisplayNameFor(h => h.HistorialAnimesTemporadasPaginated[0].NumeroTemporada)
             </th>
             <th>
@@ -91,9 +91,29 @@ else
 
                         }
                     </td>
-                    <td>
-                        @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada)
-                    </td>
+
+                    @* Si el nombre del anime es muy largo lo acortamos se puede ver completo si el usuario pone encima el cursor*@
+                    @if (registroHistorial.NombreAnimeTemporada.ToCharArray().Count() > 30)
+                    {
+
+
+                        <td>
+                            @{
+                                var nombre = registroHistorial.NombreAnimeTemporada;
+                                string cadena = "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\" " + nombre + " \" >";
+                                @Html.Raw(cadena + registroHistorial.NombreAnimeTemporada.Substring(0, 20) + "... </span>")
+                            }
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(m => registroHistorial.NombreAnimeTemporada)
+                        </td>
+                    }
+
+
                     <td>
                         @Html.DisplayFor(m => registroHistorial.fechaInicio)
                     </td>
