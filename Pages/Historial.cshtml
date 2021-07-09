@@ -100,7 +100,7 @@ else
                         <td>
                             @{
                                 var nombre = registroHistorial.NombreAnimeTemporada;
-                                string cadena = "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\" " + nombre + " \" >";
+                                string cadena =  "<span data-bs-toggle=\"tooltip\" data-delay='{\"show\":\"0\", \"hide\":\"1800\"}'  data-bs-placement=\"top\" title=\" " + nombre +" \" >";
                                 @Html.Raw(cadena + registroHistorial.NombreAnimeTemporada.Substring(0, 20) + "... </span>")
                             }
 
@@ -115,15 +115,27 @@ else
 
 
                     <td>
-                        @Html.DisplayFor(m => registroHistorial.fechaInicio)
-                    </td>
-                    <td>
-                        @if (registroHistorial.fechaFin == null)
-                        {
-
-                            @("Actualmente Viendo.")
+                        @if(registroHistorial.fechaInicio == null && registroHistorial.fechaFin == null && registroHistorial.AnyoVisto != 0){
+                            @("Desconocida")
                         }
-                        @Html.DisplayFor(m => registroHistorial.fechaFin)
+                        else{
+                          @Html.DisplayFor(m => registroHistorial.fechaInicio)
+
+                        }
+                    </td>
+                    
+                    <td>
+                        @if (registroHistorial.fechaInicio == null && registroHistorial.fechaFin == null && registroHistorial.AnyoVisto != 0){
+                               
+                                @("Desconocida")
+                        }
+                        else if(registroHistorial.fechaFin != null){
+                            @Html.DisplayFor(m => registroHistorial.fechaFin)
+                        }
+                        else{
+                            <text>Actualmente viendo.</text>
+                        }
+                      
                     </td>
 
                     <td>
@@ -138,14 +150,9 @@ else
                     </td>
 
                     <td>
-                        @if (registroHistorial.AnyoVisto == null)
-                        {
-                            @("-")
-                        }
-                        else
-                        {
+                       
                             @Html.DisplayFor(m => registroHistorial.AnyoVisto)
-                        }
+                        
                     </td>
                 </tr>
             }
@@ -173,3 +180,13 @@ else
     <a asp-page="AnimesTemporadas" class="btn btn-primary">Volver</a>
 </div>
 
+@section scripts{
+    <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+    
+
+</script>
+}

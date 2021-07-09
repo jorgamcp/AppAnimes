@@ -16,7 +16,7 @@ namespace AppAnimes.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly AppAnimesDBContext _context;
 
-      
+
         public PaginatedList<HistorialViewModel> HistorialAnimesTemporadasPaginated { get; set; }
 
         [BindProperty(SupportsGet = true)]//Enlace Modelo Soporta GET
@@ -29,7 +29,7 @@ namespace AppAnimes.Pages
         }
 
 
-        public async Task<IActionResult> OnGetAsync(int? pageIndex,int? id)
+        public async Task<IActionResult> OnGetAsync(int? pageIndex, int? id)
         {
 
             // Paginacion
@@ -39,12 +39,13 @@ namespace AppAnimes.Pages
                 return RedirectToPage("Historial");
             }
             ViewData["id"] = id;
-          
-            if(id != null) // Si hay un filtro de anime filtramos.
+
+            if (id != null) // Si hay un filtro de anime filtramos.
             {
                 HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
               from historial in _context.Historial
               where historial.AnimeId == id
+                orderby historial.IdHistorial,historial.Temporada.NumeroTemporada ascending
               select new HistorialViewModel()
               {
                   idHistorial = historial.IdHistorial,
@@ -55,12 +56,9 @@ namespace AppAnimes.Pages
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
-                  VistoEn = historial.VistoEn
+                  VistoEn = historial.VistoEn,
+                  AnyoVisto = historial.AnyoVisto
               }, pageIndex ?? 1, pageSize);
-
-
-                
-
 
                 ViewData["nombreAnimeFiltrado"] = HistorialAnimesTemporadasPaginated[0].NombreAnime;
                 ViewData["NumeroTemporada"] = HistorialAnimesTemporadasPaginated[0].NumeroTemporada;
@@ -78,12 +76,13 @@ namespace AppAnimes.Pages
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
-                  VistoEn = historial.VistoEn
+                  VistoEn = historial.VistoEn,
+                  AnyoVisto = historial.AnyoVisto
               }, pageIndex ?? 1, pageSize);
             }
 
 
-          
+
 
 
             // BUSQUEDA
@@ -103,13 +102,14 @@ namespace AppAnimes.Pages
                     NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                     fechaInicio = historial.FechaInicio,
                     fechaFin = historial.FechaFin,
-                    VistoEn = historial.VistoEn
+                    VistoEn = historial.VistoEn,
+                    AnyoVisto = historial.AnyoVisto
 
                 }, pageIndex ?? 1, pageSize);
             }
 
 
-     
+
 
 
             return Page();

@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Temporada.NumeroTemporada" class="control-label"></label>
-                <input asp-for="Temporada.NumeroTemporada" class="form-control" />
+                <input asp-for="Temporada.NumeroTemporada" class="form-control"  /> @* Si pongo aqui readonly luego no se captura el numero de temporada por asp net core porque como se obtiene por una llamada AJAX*@
                 <span asp-validation-for="Temporada.NumeroTemporada" class="text-danger"></span>
             </div>
             <div class="form-group">

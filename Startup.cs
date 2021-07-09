@@ -23,7 +23,7 @@ namespace AppAnimes
             Configuration = configuration;
         }
 
-      
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,8 +32,8 @@ namespace AppAnimes
             services.AddDbContext<AppAnimesDBContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True"));
 
             // Remove error cycle
-              services.AddControllers().AddNewtonsoftJson(options =>
-     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers().AddNewtonsoftJson(options =>
+   options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDatabaseDeveloperPageExceptionFilter();
         }
 
@@ -53,7 +53,7 @@ namespace AppAnimes
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-           
+
             app.UseRouting();
 
             app.UseAuthorization();

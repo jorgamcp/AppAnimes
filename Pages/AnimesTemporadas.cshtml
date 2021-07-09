@@ -160,7 +160,7 @@
                             <td>
                                 @{
                                     var nombre = animetemporadasjuntos.NombreAnimeTemporada;
-                                    string cadena =  "<span data-bs-toggle=\"tooltip\" data-bs-placement=\"top\" title=\" " + nombre +" \" >";
+                                    string cadena =  "<span data-bs-toggle=\"tooltip\" data-delay='{\"show\":\"1500\", \"hide\":\"1900\"}'  data-bs-placement=\"top\" title=\" " + nombre +" \" >";
                                 }
                                 @Html.Raw(cadena+animetemporadasjuntos.NombreAnimeTemporada.Substring(0,20)+"... </span>")
                                 <input type="hidden" name="NombreTemporada" id="NombreTemporada"
@@ -282,7 +282,11 @@
     @section scripts{
     <script>
 
-        $('[data-toggle-tooltip]').tooltip();
+         
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 
         $('table .edit').on('click', function () {
             var id = $(this).parent().find('#id').val();
