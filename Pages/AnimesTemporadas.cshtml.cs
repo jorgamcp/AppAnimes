@@ -95,7 +95,7 @@ namespace AppAnimes.Pages
 
                    }, pageIndex ?? 1, pageSize);
             }
-
+                
 
             return Page();
         }
