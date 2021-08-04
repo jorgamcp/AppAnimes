@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AppAnimesNuevo.Models;
 
 #nullable disable
 
@@ -20,6 +21,7 @@ namespace AppAnimes.Models
         public int? AnyoVisto{get;set;} // Si no se conoce la fecha en la que se vio el anime.
         public virtual Anime Anime { get; set; }
         public virtual Temporada Temporada { get; set; }
+        public virtual Paginas Paginas{get;set;}
          
     }
 }

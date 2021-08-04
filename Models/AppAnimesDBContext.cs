@@ -1,4 +1,5 @@
 ﻿using System;
+using AppAnimesNuevo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -25,6 +26,8 @@ namespace AppAnimes.Models
         public virtual DbSet<Anime> Animes { get; set; }
         public virtual DbSet<Historial> Historial { get; set; }
         public virtual DbSet<Temporada> Temporadas { get; set; }
+
+        public virtual DbSet<Paginas> Paginas{get;set;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -118,6 +121,14 @@ namespace AppAnimes.Models
                     .HasForeignKey(d => d.AnimeId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Temporadas_Animes");
+            });
+
+            modelBuilder.Entity<Paginas>(entity => {
+                entity.Property(p => p.paginaId).ValueGeneratedOnAdd().IsUnicode(false);
+                entity.Property(p => p.nombrePagina);
+                entity.Property(p => p.esLegal);
+
+           
             });
 
             OnModelCreatingPartial(modelBuilder);
