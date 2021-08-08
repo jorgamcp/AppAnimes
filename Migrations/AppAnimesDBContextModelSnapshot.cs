@@ -69,6 +69,9 @@ namespace AppAnimes.Migrations
                     b.Property<DateTime?>("FechaInicio")
                         .HasColumnType("datetime");
 
+                    b.Property<int?>("PaginaspaginaId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TemporadaId")
                         .HasColumnType("int");
 
@@ -81,6 +84,8 @@ namespace AppAnimes.Migrations
                     b.HasKey("IdHistorial");
 
                     b.HasIndex("AnimeId");
+
+                    b.HasIndex("PaginaspaginaId");
 
                     b.HasIndex("TemporadaId");
 
@@ -131,6 +136,34 @@ namespace AppAnimes.Migrations
                     b.ToTable("Temporadas");
                 });
 
+            modelBuilder.Entity("AppAnimesNuevo.Models.Paginas", b =>
+                {
+                    b.Property<int>("paginaId")
+                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("esFansub")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("esLegal")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("nombrePagina")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("urlPagina")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("paginaId");
+
+                    b.ToTable("Paginas");
+                });
+
             modelBuilder.Entity("AppAnimes.Models.Historial", b =>
                 {
                     b.HasOne("AppAnimes.Models.Anime", "Anime")
@@ -139,12 +172,18 @@ namespace AppAnimes.Migrations
                         .HasConstraintName("FK_Historial_Animes")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("AppAnimesNuevo.Models.Paginas", "Paginas")
+                        .WithMany("Historials")
+                        .HasForeignKey("PaginaspaginaId");
+
                     b.HasOne("AppAnimes.Models.Temporada", "Temporada")
                         .WithMany("Historials")
                         .HasForeignKey("TemporadaId")
                         .HasConstraintName("FK_Historial_Temporadas");
 
                     b.Navigation("Anime");
+
+                    b.Navigation("Paginas");
 
                     b.Navigation("Temporada");
                 });
@@ -155,7 +194,7 @@ namespace AppAnimes.Migrations
                         .WithMany("Temporadas")
                         .HasForeignKey("AnimeId")
                         .HasConstraintName("FK_Temporadas_Animes")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Anime");
                 });
@@ -168,6 +207,11 @@ namespace AppAnimes.Migrations
                 });
 
             modelBuilder.Entity("AppAnimes.Models.Temporada", b =>
+                {
+                    b.Navigation("Historials");
+                });
+
+            modelBuilder.Entity("AppAnimesNuevo.Models.Paginas", b =>
                 {
                     b.Navigation("Historials");
                 });

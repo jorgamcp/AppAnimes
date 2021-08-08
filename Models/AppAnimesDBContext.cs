@@ -33,7 +33,7 @@ namespace AppAnimes.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB_TESTMODE;Integrated Security=True");
             }
             //optionsBuilder.LogTo(Console.WriteLine); Muestra el SQL Generado
         }
@@ -119,14 +119,19 @@ namespace AppAnimes.Models
                 entity.HasOne(d => d.Anime)
                     .WithMany(p => p.Temporadas)
                     .HasForeignKey(d => d.AnimeId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("FK_Temporadas_Animes");
             });
 
             modelBuilder.Entity<Paginas>(entity => {
+                entity.HasKey(p => p.paginaId);
                 entity.Property(p => p.paginaId).ValueGeneratedOnAdd().IsUnicode(false);
-                entity.Property(p => p.nombrePagina);
+                entity.Property(p => p.nombrePagina)
+                      .HasMaxLength(500);
                 entity.Property(p => p.esLegal);
+                entity.Property(p => p.urlPagina)
+                      .HasMaxLength(500);
+                entity.Property(p => p.esFansub);
 
            
             });

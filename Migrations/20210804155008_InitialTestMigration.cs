@@ -23,6 +23,20 @@ namespace AppAnimes.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Paginas",
+                columns: table => new
+                {
+                    paginaId = table.Column<int>(type: "int", unicode: false, nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    nombrePagina = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    esLegal = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Paginas", x => x.paginaId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Temporadas",
                 columns: table => new
                 {
@@ -42,8 +56,7 @@ namespace AppAnimes.Migrations
                         name: "FK_Temporadas_Animes",
                         column: x => x.AnimeId,
                         principalTable: "Animes",
-                        principalColumn: "AnimeId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "AnimeId");
                 });
 
             migrationBuilder.CreateTable(
@@ -57,7 +70,8 @@ namespace AppAnimes.Migrations
                     FechaInicio = table.Column<DateTime>(type: "datetime", nullable: true),
                     FechaFin = table.Column<DateTime>(type: "datetime", nullable: true),
                     VistoEn = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    AnyoVisto = table.Column<int>(type: "int", nullable: true)
+                    AnyoVisto = table.Column<int>(type: "int", nullable: true),
+                    PaginaspaginaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,6 +82,12 @@ namespace AppAnimes.Migrations
                         principalTable: "Animes",
                         principalColumn: "AnimeId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Historial_Paginas_PaginaspaginaId",
+                        column: x => x.PaginaspaginaId,
+                        principalTable: "Paginas",
+                        principalColumn: "paginaId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Historial_Temporadas",
                         column: x => x.TemporadaId,
@@ -80,6 +100,11 @@ namespace AppAnimes.Migrations
                 name: "IX_Historial_AnimeId",
                 table: "Historial",
                 column: "AnimeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Historial_PaginaspaginaId",
+                table: "Historial",
+                column: "PaginaspaginaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Historial_TemporadaId",
@@ -96,6 +121,9 @@ namespace AppAnimes.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Historial");
+
+            migrationBuilder.DropTable(
+                name: "Paginas");
 
             migrationBuilder.DropTable(
                 name: "Temporadas");

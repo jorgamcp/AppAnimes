@@ -17,6 +17,9 @@ namespace AppAnimesNuevo.Models
         public string nombrePagina{get;set;}
         public bool? esLegal{get;set;}
 
+        public bool esFansub{get;set;}
+        public string urlPagina{get;set;}
+
         // Relacion 1 a N entre Paginas e Historial 
         public  virtual ICollection<Historial> Historials {get;set;}
 

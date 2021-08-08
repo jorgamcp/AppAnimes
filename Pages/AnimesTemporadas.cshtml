@@ -133,6 +133,12 @@
                 </tr>
             </thead>
             <tbody>
+                 @if (Model.animesTemporadasPaginated.ToList().Count == 0)
+        {
+            <tr col=5>
+                <td colspan="9" class="text-center"> No Hay Registros</td>
+            </tr>
+        }else{
                 @foreach (var animetemporadasjuntos in Model.animesTemporadasPaginated)
                 {
 
@@ -258,7 +264,7 @@
                     </tr>
                 }
 
-
+}
 
             </tbody>
         </table>
