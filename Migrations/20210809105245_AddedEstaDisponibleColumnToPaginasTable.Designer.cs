@@ -4,14 +4,16 @@ using AppAnimes.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AppAnimes.Migrations
 {
     [DbContext(typeof(AppAnimesDBContext))]
-    partial class AppAnimesDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210809105245_AddedEstaDisponibleColumnToPaginasTable")]
+    partial class AddedEstaDisponibleColumnToPaginasTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

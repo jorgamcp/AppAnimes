@@ -26,7 +26,7 @@ namespace AppAnimes.Pages
             _context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? pageIndex, string action,int? pageId)
+        public async Task<IActionResult> OnGetAsync(int? pageIndex, string action, int? pageId)
         {
 
             if (action == null && pageId == null)
@@ -43,31 +43,22 @@ namespace AppAnimes.Pages
                     {
                         paginaId = pagina.paginaId,
                         nombrePagina = pagina.nombrePagina,
-                        esLegal = pagina.esLegal
+                        esLegal = pagina.esLegal,
+                        esFansub = pagina.esFansub,
+                        estaDisponible = pagina.estaDisponible
                     }, pageIndex ?? 1, pageSize);
 
                 return Page();
             }
             else
-            {   
+            {
                 string urlDestino = (from pagina in _context.Paginas where pagina.paginaId == pageId select pagina.urlPagina).First(); // Obtener URL de la pagina desde SQL SERVER
                 return Redirect(urlDestino);
             }
         }
 
+    
 
-        // public RedirectResult Redireccionar(int PageId)
-        // {
-
-        //     string urlDestination = "a";
-
-        //     urlDestination = (from paginas in _context.Paginas where paginas.paginaId == PageId select paginas.urlPagina).FirstOrDefault();
-
-
-
-
-        //     return Redirect(urlDestination);
-        // }
 
     }
 }

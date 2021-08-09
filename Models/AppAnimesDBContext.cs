@@ -132,6 +132,7 @@ namespace AppAnimes.Models
                 entity.Property(p => p.urlPagina)
                       .HasMaxLength(500);
                 entity.Property(p => p.esFansub);
+                entity.Property(p => p.estaDisponible);
 
            
             });
