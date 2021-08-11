@@ -31,7 +31,7 @@ namespace AppAnimes.Models
         public DateTime? fechaPausa { get; set; }
 
         [DisplayName("Visto En")]
-        public string VistoEn { get; set; }
+        public int VistoEn { get; set; }
 
         [DisplayName("Año Visto")]
         public int? AnyoVisto{get;set;}

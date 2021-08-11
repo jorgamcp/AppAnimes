@@ -111,12 +111,15 @@ namespace AppAnimes.Pages
             var temporada = _context.Temporadas.Find(id);
             //string anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).Select( a => a.Nombre).FirstOrDefault();
             Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
-            var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
+           // TODO: Comprobar este codigo
+
+            //var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
+            var historials = _context.Historial.ToList();
             temporada.Anime = anime;
             temporada.Historials = historials;
             return new JsonResult(temporada);
         }
-        public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, string paginavisto)
+        public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, int paginavisto)
         {
             Temporada temporada = _context.Temporadas.Find(id);
             Historial historial = _context.Historial.Where(h => h.TemporadaId == id && h.FechaFin == null).FirstOrDefault();

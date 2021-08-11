@@ -92,6 +92,9 @@ namespace AppAnimes.Models
                 .HasForeignKey(d => d.TemporadaId)
                 .HasConstraintName("FK_Historial_Temporadas");
 
+                entity.HasOne( p => p.Pagina)
+                .WithMany(h => h.Historials);
+
             });
 
             modelBuilder.Entity<Temporada>(entity =>
