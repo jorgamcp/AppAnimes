@@ -27,11 +27,17 @@
         <span asp-validation-for="Pagina.esFansub" class="text-danger"></span>
         <span class="text-danger"> @Html.ValidationMessage("Pagina.esFansub")</span>
     </div>
- <div class="form-group">
+     <div class="form-group">
         <label asp-for="Pagina.estaDisponible"></label>
         <input asp-for="Pagina.estaDisponible" class="form-control" />
         <span asp-validation-for="Pagina.estaDisponible" class="text-danger"></span>
         <span class="text-danger"> @Html.ValidationMessage("Pagina.estaDisponible")</span>
+    </div>
+     <div class="form-group">
+        <label asp-for="Pagina.estaActivo"></label>
+        <input asp-for="Pagina.estaActivo" class="form-control" />
+        <span asp-validation-for="Pagina.estaActivo" class="text-danger"></span>
+        <span class="text-danger"> @Html.ValidationMessage("Pagina.estaActivo")</span>
     </div>
     <div class="form-group">
         <label asp-for="Pagina.urlPagina"></label>

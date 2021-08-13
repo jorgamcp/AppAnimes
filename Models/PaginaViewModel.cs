@@ -21,6 +21,8 @@ namespace AppAnimes.Models
         
         [DisplayName("¿Esta Disponible en España?")]
         public bool estaDisponible{get;set;}
+        [DisplayName("¿Esta Activo?")]
+        public bool estaActivo{get;set;}
         public PaginaViewModel()
         {
         }

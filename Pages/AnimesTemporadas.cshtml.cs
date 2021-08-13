@@ -119,6 +119,7 @@ namespace AppAnimes.Pages
             temporada.Historials = historials;
             return new JsonResult(temporada);
         }
+        // BUG: This code doesn't work properly
         public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, int paginavisto)
         {
             Temporada temporada = _context.Temporadas.Find(id);
@@ -143,7 +144,7 @@ namespace AppAnimes.Pages
             else
             {
                 // Si no quiere decir que he terminado de ver un anime y el cambio es de viendo a visto Actualizamos FechaFin que estará en Null.
-
+                // BUG : Aqui pega exepcion 
                 historial.FechaFin = DateTime.Now;
                 // 2. Establecemos el valor de estado a Visto
                 temporada.Estado = estado;

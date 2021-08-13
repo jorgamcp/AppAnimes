@@ -11,6 +11,9 @@
     ViewData["Title"] = "Historial";
     string tr_pintado = "#ef2a3dab";
     string colorTexto = "color:white";
+
+   // var cantidadAnimesVistos = ViewData["Call_StoredProc_ContarAnimesPaginas"];
+
 }
 <h3>Páginas Registradas</h3>
 <div class="row">
@@ -48,6 +51,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].urlPagina)
+            </th>
+            <th>
+                Cantidad Animes Vistos
+            </th>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].estaActivo)
             </th>
             <th colspan="2">
                 Acciones
@@ -132,9 +141,27 @@
 
                     </td>
                     <td>
-                        <a href="#" class="btn btn-warning">Editar</a>
-                        <a href="#" class="btn btn-danger">Eliminar</a>
+                        @* @cantidadAnimesVistos *@
                     </td>
+                    <td>
+                        @if(registroPagina.estaActivo){
+                            <p>Si</p>
+                        }else{
+                            <p>No</p>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-page="./EditarPagina"
+                    asp-route-paginaId="@registroPagina.paginaId"
+                   >Editar</a>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-sm btn-danger" asp-page="./EliminarPagina"
+                        asp-route-PaginaId="@registroPagina.paginaId"
+                        >Eliminar</a>
+                    </td>
+                 
                 </tr>
             }
         }

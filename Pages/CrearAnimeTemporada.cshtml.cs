@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using AppAnimes.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AppAnimes.Pages.Animes
 {
@@ -31,7 +32,15 @@ namespace AppAnimes.Pages.Animes
 
         public IActionResult OnGet()
         {
+            // Obtener el nombre de las paginas en el SelectBox.
+            var linqObtenerPaginas = (
+                from p in _context.Paginas where p.estaDisponible == true  orderby p.esLegal == false ascending select new SelectListItem
+            {
+                Value = p.paginaId.ToString(),
+                Text = p.nombrePagina
+            });
 
+            ViewData["PaginaId"] = linqObtenerPaginas;
 
             return Page();
         }

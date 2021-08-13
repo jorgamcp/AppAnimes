@@ -4,14 +4,16 @@ using AppAnimes.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AppAnimes.Migrations
 {
     [DbContext(typeof(AppAnimesDBContext))]
-    partial class AppAnimesDBContextModelSnapshot : ModelSnapshot
+    [Migration("20210812143739_AddedEstaActivoColumnToPaginasTable")]
+    partial class AddedEstaActivoColumnToPaginasTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,13 +79,16 @@ namespace AppAnimes.Migrations
                         .IsUnicode(false)
                         .HasColumnType("int");
 
+                    b.Property<int?>("paginaId")
+                        .HasColumnType("int");
+
                     b.HasKey("IdHistorial");
 
                     b.HasIndex("AnimeId");
 
                     b.HasIndex("TemporadaId");
 
-                    b.HasIndex("VistoEn");
+                    b.HasIndex("paginaId");
 
                     b.ToTable("Historial");
                 });
@@ -181,9 +186,7 @@ namespace AppAnimes.Migrations
 
                     b.HasOne("AppAnimesNuevo.Models.Paginas", "Pagina")
                         .WithMany("Historials")
-                        .HasForeignKey("VistoEn")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("paginaId");
 
                     b.Navigation("Anime");
 

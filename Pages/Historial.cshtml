@@ -139,14 +139,15 @@ else
                     </td>
 
                     <td>
-                        @if (registroHistorial.VistoEn == null)
+                        @* @if (registroHistorial.VistoEn == null)
                         {
                             @("-")
                         }
                         else
                         {
                             @Html.DisplayFor(m => registroHistorial.VistoEn)
-                        }
+                        } *@
+                         @Html.DisplayFor(m => registroHistorial.nombrePagina)
                     </td>
 
                     <td>

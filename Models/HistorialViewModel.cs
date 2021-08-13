@@ -31,6 +31,9 @@ namespace AppAnimes.Models
         public DateTime? fechaPausa { get; set; }
 
         [DisplayName("Visto En")]
+        public string nombrePagina{get;set;}
+
+
         public int VistoEn { get; set; }
 
         [DisplayName("Año Visto")]
@@ -39,6 +42,8 @@ namespace AppAnimes.Models
         public HistorialViewModel()
         {
             NombreAnimeTemporada = NombreAnime + " " + nombreTemporada;
+
+            
         }
 
     }
