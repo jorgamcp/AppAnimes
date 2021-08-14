@@ -23,6 +23,9 @@ namespace AppAnimes.Models
         public bool estaDisponible{get;set;}
         [DisplayName("¿Esta Activo?")]
         public bool estaActivo{get;set;}
+
+       
+        
         public PaginaViewModel()
         {
         }

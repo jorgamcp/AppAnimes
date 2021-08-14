@@ -45,13 +45,12 @@ namespace AppAnimes.Pages
                         nombrePagina = pagina.nombrePagina,
                         esLegal = pagina.esLegal,
                         esFansub = pagina.esFansub,
-                        estaDisponible = pagina.estaDisponible,
+                        estaDisponible = pagina.estaDisponible, 
                         estaActivo = pagina.estaActivo
                     }, pageIndex ?? 1, pageSize);
 
                  
-                
-
+               
 
 
                  //ViewData["Call_StoredProc_ContarAnimesPaginas"] = callStoredProcLinq.ToList();
