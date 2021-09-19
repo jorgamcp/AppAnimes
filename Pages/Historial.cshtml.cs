@@ -45,7 +45,7 @@ namespace AppAnimes.Pages
                 HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
               from historial in _context.Historial
               where historial.AnimeId == id
-                orderby historial.IdHistorial,historial.Temporada.NumeroTemporada ascending
+              orderby historial.IdHistorial, historial.Temporada.NumeroTemporada ascending
               select new HistorialViewModel()
               {
                   idHistorial = historial.IdHistorial,
@@ -56,6 +56,7 @@ namespace AppAnimes.Pages
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
+                  VistoEn = historial.VistoEn,
                   nombrePagina = historial.Pagina.nombrePagina,
                   AnyoVisto = historial.AnyoVisto
               }, pageIndex ?? 1, pageSize);
@@ -76,6 +77,7 @@ namespace AppAnimes.Pages
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
+                  VistoEn = historial.VistoEn,
                   nombrePagina = historial.Pagina.nombrePagina,
                   AnyoVisto = historial.AnyoVisto
               }, pageIndex ?? 1, pageSize);

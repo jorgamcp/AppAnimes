@@ -34,7 +34,7 @@ namespace AppAnimes.Models
         public string nombrePagina{get;set;}
 
 
-        public int VistoEn { get; set; }
+        public int? VistoEn { get; set; }
 
         [DisplayName("Año Visto")]
         public int? AnyoVisto{get;set;}

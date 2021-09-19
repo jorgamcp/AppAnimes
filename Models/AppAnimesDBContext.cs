@@ -93,7 +93,7 @@ namespace AppAnimes.Models
                 .HasConstraintName("FK_Historial_Temporadas");
 
                 entity.HasOne( p => p.Pagina)
-                .WithMany(h => h.Historials).HasForeignKey(h => h.VistoEn);
+                .WithMany(h => h.Historials).HasForeignKey(h => h.VistoEn).OnDelete(DeleteBehavior.SetNull);
 
             });
 
