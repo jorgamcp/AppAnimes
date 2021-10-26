@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppAnimes.Migrations
 {
-    public partial class InitialTestMigration : Migration
+    public partial class DropColumnAnimeIdHistorial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,8 +28,12 @@ namespace AppAnimes.Migrations
                 {
                     paginaId = table.Column<int>(type: "int", unicode: false, nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    nombrePagina = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    esLegal = table.Column<bool>(type: "bit", nullable: true)
+                    nombrePagina = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    esLegal = table.Column<bool>(type: "bit", nullable: false),
+                    esFansub = table.Column<bool>(type: "bit", nullable: false),
+                    estaDisponible = table.Column<bool>(type: "bit", nullable: false),
+                    estaActivo = table.Column<bool>(type: "bit", nullable: false),
+                    urlPagina = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,35 +69,34 @@ namespace AppAnimes.Migrations
                 {
                     id_historial = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AnimeId = table.Column<int>(type: "int", nullable: true),
                     TemporadaId = table.Column<int>(type: "int", nullable: true),
                     FechaInicio = table.Column<DateTime>(type: "datetime", nullable: true),
                     FechaFin = table.Column<DateTime>(type: "datetime", nullable: true),
-                    VistoEn = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    VistoEn = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: false),
                     AnyoVisto = table.Column<int>(type: "int", nullable: true),
-                    PaginaspaginaId = table.Column<int>(type: "int", nullable: true)
+                    AnimeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Historial", x => x.id_historial);
                     table.ForeignKey(
-                        name: "FK_Historial_Animes",
+                        name: "FK_Historial_Animes_AnimeId",
                         column: x => x.AnimeId,
                         principalTable: "Animes",
                         principalColumn: "AnimeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Historial_Paginas_PaginaspaginaId",
-                        column: x => x.PaginaspaginaId,
+                        name: "FK_Historial_Paginas_VistoEn",
+                        column: x => x.VistoEn,
                         principalTable: "Paginas",
                         principalColumn: "paginaId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Historial_Temporadas",
                         column: x => x.TemporadaId,
                         principalTable: "Temporadas",
                         principalColumn: "TemporadaId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -102,14 +105,14 @@ namespace AppAnimes.Migrations
                 column: "AnimeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Historial_PaginaspaginaId",
-                table: "Historial",
-                column: "PaginaspaginaId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Historial_TemporadaId",
                 table: "Historial",
                 column: "TemporadaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Historial_VistoEn",
+                table: "Historial",
+                column: "VistoEn");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Temporadas_AnimeId",

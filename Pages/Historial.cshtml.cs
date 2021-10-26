@@ -44,7 +44,7 @@ namespace AppAnimes.Pages
             {
                 HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
               from historial in _context.Historial
-              where historial.AnimeId == id
+              where historial.Anime.AnimeId == id
               orderby historial.IdHistorial, historial.Temporada.NumeroTemporada ascending
               select new HistorialViewModel()
               {

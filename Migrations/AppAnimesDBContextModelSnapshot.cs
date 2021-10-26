@@ -72,7 +72,8 @@ namespace AppAnimes.Migrations
                     b.Property<int?>("TemporadaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("VistoEn")
+                    b.Property<int?>("VistoEn")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("int");
@@ -170,9 +171,7 @@ namespace AppAnimes.Migrations
                 {
                     b.HasOne("AppAnimes.Models.Anime", "Anime")
                         .WithMany("Historials")
-                        .HasForeignKey("AnimeId")
-                        .HasConstraintName("FK_Historial_Animes")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnimeId");
 
                     b.HasOne("AppAnimes.Models.Temporada", "Temporada")
                         .WithMany("Historials")
@@ -182,6 +181,7 @@ namespace AppAnimes.Migrations
                     b.HasOne("AppAnimesNuevo.Models.Paginas", "Pagina")
                         .WithMany("Historials")
                         .HasForeignKey("VistoEn")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Anime");
@@ -211,6 +211,7 @@ namespace AppAnimes.Migrations
 
             modelBuilder.Entity("AppAnimes.Models.Temporada", b =>
                 {
+                    
                     b.Navigation("Historials");
                 });
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppAnimes.Migrations
 {
     [DbContext(typeof(AppAnimesDBContext))]
-    [Migration("20210809105245_AddedEstaDisponibleColumnToPaginasTable")]
-    partial class AddedEstaDisponibleColumnToPaginasTable
+    [Migration("20211017152058_DropColumnAnimeIdHistorial")]
+    partial class DropColumnAnimeIdHistorial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,25 +71,22 @@ namespace AppAnimes.Migrations
                     b.Property<DateTime?>("FechaInicio")
                         .HasColumnType("datetime");
 
-                    b.Property<int?>("PaginaspaginaId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("TemporadaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("VistoEn")
+                    b.Property<int?>("VistoEn")
                         .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("int");
 
                     b.HasKey("IdHistorial");
 
                     b.HasIndex("AnimeId");
 
-                    b.HasIndex("PaginaspaginaId");
-
                     b.HasIndex("TemporadaId");
+
+                    b.HasIndex("VistoEn");
 
                     b.ToTable("Historial");
                 });
@@ -152,6 +149,9 @@ namespace AppAnimes.Migrations
                     b.Property<bool>("esLegal")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("estaActivo")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("estaDisponible")
                         .HasColumnType("bit");
 
@@ -173,22 +173,22 @@ namespace AppAnimes.Migrations
                 {
                     b.HasOne("AppAnimes.Models.Anime", "Anime")
                         .WithMany("Historials")
-                        .HasForeignKey("AnimeId")
-                        .HasConstraintName("FK_Historial_Animes")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("AppAnimesNuevo.Models.Paginas", "Paginas")
-                        .WithMany("Historials")
-                        .HasForeignKey("PaginaspaginaId");
+                        .HasForeignKey("AnimeId");
 
                     b.HasOne("AppAnimes.Models.Temporada", "Temporada")
                         .WithMany("Historials")
                         .HasForeignKey("TemporadaId")
                         .HasConstraintName("FK_Historial_Temporadas");
 
+                    b.HasOne("AppAnimesNuevo.Models.Paginas", "Pagina")
+                        .WithMany("Historials")
+                        .HasForeignKey("VistoEn")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
                     b.Navigation("Anime");
 
-                    b.Navigation("Paginas");
+                    b.Navigation("Pagina");
 
                     b.Navigation("Temporada");
                 });

@@ -80,12 +80,7 @@ namespace AppAnimes.Models
 
                 entity.Property(e => e.VistoEn).HasMaxLength(50).IsUnicode(false);
 
-                entity.HasOne(d => d.Anime)
-                    .WithMany(p => p.Historials)
-                    .HasForeignKey(d => d.AnimeId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_Historial_Animes");
-
+                
 
                 entity.HasOne(d => d.Temporada)
                 .WithMany(p => p.Historials)
