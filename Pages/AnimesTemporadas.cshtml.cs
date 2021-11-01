@@ -72,7 +72,7 @@ namespace AppAnimes.Pages
 
 
             // Busqueda
-             
+
             if (!string.IsNullOrEmpty(searchString))
             {
                 animesTemporadasPaginated = await PaginatedList<AnimesTemporadasViewModel>.CreateAsync(
@@ -106,7 +106,9 @@ namespace AppAnimes.Pages
             Metodo que devuelve un JSON con la informacion del anime, se pasa el id a la base de datos.
             Para llamar a este metodo desde JS JQuery se llama Find omitimos OnGet.
         */
+ 
 
+        
         public IActionResult OnGetFind(int id)
         {
             Temporada temporada = _context.Temporadas.Find(id);
@@ -117,9 +119,12 @@ namespace AppAnimes.Pages
             //var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
             List<Historial> historials = _context.Historial.ToList();
             temporada.Anime = anime;
-            temporada.Historials = historials;
-            return new JsonResult(temporada);
+           // temporada.Historials = historials;
+            return new JsonResult(anime);
         }
+
+
+        
         // BUG: This code doesn't work properly
         public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, int paginavisto)
         {
@@ -162,8 +167,9 @@ namespace AppAnimes.Pages
 
             return RedirectToPage("./AnimesTemporadas");
         }
+        
 
 
     }
 }
-
+ 
