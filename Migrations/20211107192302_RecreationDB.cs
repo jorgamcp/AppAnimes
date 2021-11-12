@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AppAnimes.Migrations
 {
-    public partial class DropColumnAnimeIdHistorial : Migration
+    public partial class RecreationDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -90,13 +90,13 @@ namespace AppAnimes.Migrations
                         column: x => x.VistoEn,
                         principalTable: "Paginas",
                         principalColumn: "paginaId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Historial_Temporadas",
                         column: x => x.TemporadaId,
                         principalTable: "Temporadas",
                         principalColumn: "TemporadaId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

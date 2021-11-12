@@ -71,7 +71,7 @@
                     </div>
                     <div class="modal-body" id="content">
                         <div class="form-group">
-                            <h4 id="titulo-modal">Cambiando Estado <span id="titulo-modal"></span></h4>
+                            <h4 id="titulo-modal">Cambiando Estado </h4>
                             <label>Estado:</label>
                             <input name="estado" id="estado" type="text" class="form-control" required="true" />
                             <label>¿Donde se ha visto el Anime?:</label>
@@ -299,19 +299,21 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             var id = $(this).parent().find('#id').val();
             var titulo = $(this).parent().find('#NombreTemporada').val();
             var estado = $(this).parent().find('#estado').val();
+           
             var paginavisto = $(this).parent().find('#paginavisto').val();
 
             //  alert(id);
             $('#edit-modal #id').val(id);
-            $('#edit-modal #titulo-modal').val(titulo);
+          
             $.ajax({
                 type: 'GET',
                 data: { id: id, estado: estado, nombreTemporada: titulo, paginavisto: paginavisto },
                 url: '@Url.Page("AnimesTemporadas","Find")',
                 success: function (result) {
+                      $('#modal-span').val(titulo);
                     $('#edit-modal #estado').val(result.estado);
                     $('#edit-modal #paginavisto').val(result.paginavisto);
-                    $('#edit-modal #titulo-modal').val(result.anime.nombre + " " + result.nombreTemporada);
+                    $('#edit-modal #titulo-modal').val(result.nombre + " " + result.nombreTemporada);
                 }
 
 

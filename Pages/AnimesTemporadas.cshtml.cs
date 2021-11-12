@@ -92,7 +92,8 @@ namespace AppAnimes.Pages
                        nombreEnIngles = at.Anime.NombreIngles,
                        estado = at.Estado,
                        tipo = at.Tipo,
-                       temporada_estreno = at.TemporadaEstreno
+                       temporada_estreno = at.TemporadaEstreno,
+            
 
                    }, pageIndex ?? 1, pageSize);
             }
@@ -106,25 +107,39 @@ namespace AppAnimes.Pages
             Metodo que devuelve un JSON con la informacion del anime, se pasa el id a la base de datos.
             Para llamar a este metodo desde JS JQuery se llama Find omitimos OnGet.
         */
- 
 
-        
+
+
         public IActionResult OnGetFind(int id)
         {
             Temporada temporada = _context.Temporadas.Find(id);
             //string anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).Select( a => a.Nombre).FirstOrDefault();
-            Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
+          //  Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
             // TODO: Comprobar este codigo
 
             //var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
-            List<Historial> historials = _context.Historial.ToList();
-            temporada.Anime = anime;
-           // temporada.Historials = historials;
-            return new JsonResult(anime);
+            //List<Historial> historials = _context.Historial.ToList();
+            if(temporada == null)
+            {
+               
+               return NotFound(new {Message="Season Anime not found"});
+            }
+            TemporadaJson temporadaJson = new TemporadaJson();
+            temporadaJson.TemporadaId = temporada.TemporadaId;
+            temporadaJson.animeId = temporada.AnimeId;
+            temporadaJson.nombreTemporada = temporada.NombreTemporada;
+            temporadaJson.numeroTemporada = temporada.NumeroTemporada;
+            temporadaJson.TemporadaEstreno = temporada.TemporadaEstreno;
+            temporadaJson.tipo = temporada.Tipo;
+            temporadaJson.estado = temporada.Estado;
+
+
+            // temporada.Historials = historials;
+            return new JsonResult(temporadaJson);
         }
 
 
-        
+
         // BUG: This code doesn't work properly
         public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, int paginavisto)
         {
@@ -155,6 +170,7 @@ namespace AppAnimes.Pages
                 historial.FechaFin = DateTime.Now;
                 // 2. Establecemos el valor de estado a Visto
                 temporada.Estado = estado;
+                historial.VistoEn = historial.Pagina.paginaId;
             }
 
 
@@ -167,9 +183,27 @@ namespace AppAnimes.Pages
 
             return RedirectToPage("./AnimesTemporadas");
         }
-        
+
 
 
     }
 }
- 
+
+
+class TemporadaJson 
+{
+    public int TemporadaId { get; set; }   
+    public int? numeroTemporada { get; set; }
+    public string nombreTemporada { get; set; }
+    public string estado  { get; set; }
+
+    public string tipo { get; set; }
+    public string TemporadaEstreno { get; set; }
+    public int? animeId { get; set; }
+    public TemporadaJson()
+    {
+
+    }
+
+
+}

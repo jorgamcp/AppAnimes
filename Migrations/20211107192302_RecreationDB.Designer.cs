@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppAnimes.Migrations
 {
     [DbContext(typeof(AppAnimesDBContext))]
-    [Migration("20211017152058_DropColumnAnimeIdHistorial")]
-    partial class DropColumnAnimeIdHistorial
+    [Migration("20211107192302_RecreationDB")]
+    partial class RecreationDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,8 +74,7 @@ namespace AppAnimes.Migrations
                     b.Property<int?>("TemporadaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VistoEn")
-                        .IsRequired()
+                    b.Property<int>("VistoEn")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("int");
