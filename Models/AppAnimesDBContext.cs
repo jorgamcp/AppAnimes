@@ -1,4 +1,5 @@
 ﻿using System;
+using AppAnimesNuevo.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -16,8 +17,9 @@ namespace AppAnimes.Models
         {
         }
 
-        public AppAnimesDBContext(DbContextOptions<AppAnimesDBContext> options)
-            : base(options)
+
+        // base(options) llama al constructor de la clase padre DBContext
+        public AppAnimesDBContext(DbContextOptions<AppAnimesDBContext> options) : base(options)
         {
         }
 
@@ -26,11 +28,15 @@ namespace AppAnimes.Models
         public virtual DbSet<Historial> Historial { get; set; }
         public virtual DbSet<Temporada> Temporadas { get; set; }
 
+        public virtual DbSet<Paginas> Paginas { get; set; }
+
+        public virtual DbSet<Peliculas> Peliculas {get;set;}
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB_TESTMODE;Integrated Security=True");
             }
             //optionsBuilder.LogTo(Console.WriteLine); Muestra el SQL Generado
         }
@@ -77,17 +83,15 @@ namespace AppAnimes.Models
 
                 entity.Property(e => e.VistoEn).HasMaxLength(50).IsUnicode(false);
 
-                entity.HasOne(d => d.Anime)
-                    .WithMany(p => p.Historials)
-                    .HasForeignKey(d => d.AnimeId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK_Historial_Animes");
 
 
                 entity.HasOne(d => d.Temporada)
                 .WithMany(p => p.Historials)
                 .HasForeignKey(d => d.TemporadaId)
                 .HasConstraintName("FK_Historial_Temporadas");
+
+                entity.HasOne(p => p.Pagina)
+                .WithMany(h => h.Historials).HasForeignKey(h => h.VistoEn).OnDelete(DeleteBehavior.Cascade);
 
             });
 
@@ -116,9 +120,38 @@ namespace AppAnimes.Models
                 entity.HasOne(d => d.Anime)
                     .WithMany(p => p.Temporadas)
                     .HasForeignKey(d => d.AnimeId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("FK_Temporadas_Animes");
             });
+
+            modelBuilder.Entity<Paginas>(entity =>
+            {
+                entity.HasKey(p => p.paginaId);
+                entity.Property(p => p.paginaId).ValueGeneratedOnAdd().IsUnicode(false);
+                entity.Property(p => p.nombrePagina)
+                      .HasMaxLength(500);
+                entity.Property(p => p.esLegal);
+                entity.Property(p => p.urlPagina)
+                      .HasMaxLength(500);
+                entity.Property(p => p.esFansub);
+                entity.Property(p => p.estaDisponible);
+                entity.Property(p => p.estaActivo);
+
+
+            });
+
+            modelBuilder.Entity<Peliculas>(entity =>
+            {
+                entity.HasKey(pe => pe.PeliculaId);
+                entity.Property(pe => pe.PeliculaId).ValueGeneratedOnAdd().IsUnicode(false);
+                entity.Property(pe => pe.nombrePelicula).HasMaxLength(200);
+                entity.Property(pe => pe.estudio).HasMaxLength(100);
+
+                 
+            });
+
+
+
 
             OnModelCreatingPartial(modelBuilder);
         }

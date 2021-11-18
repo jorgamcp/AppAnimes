@@ -29,7 +29,7 @@ namespace AppAnimes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddDbContext<AppAnimesDBContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=AppAnimesDB;Integrated Security=True"));
+            services.AddDbContext<AppAnimesDBContext>(options => options.UseSqlServer("Data Source=.;Initial Catalog=AppAnimes_DBTESTMODE;Integrated Security=True"));
 
             // Remove error cycle
             services.AddControllers().AddNewtonsoftJson(options =>

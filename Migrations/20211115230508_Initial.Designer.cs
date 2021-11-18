@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppAnimes.Migrations
 {
     [DbContext(typeof(AppAnimesDBContext))]
-    [Migration("20210609114656_SetDeleteBehaviorCascadeMigration2")]
-    partial class SetDeleteBehaviorCascadeMigration2
+    [Migration("20211115230508_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,7 @@ namespace AppAnimes.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Genero")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
@@ -70,21 +71,55 @@ namespace AppAnimes.Migrations
                     b.Property<DateTime?>("FechaInicio")
                         .HasColumnType("datetime");
 
+                    b.Property<int?>("PeliculasPeliculaId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TemporadaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("VistoEn")
+                    b.Property<int>("VistoEn")
                         .HasMaxLength(50)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("int");
 
                     b.HasKey("IdHistorial");
 
                     b.HasIndex("AnimeId");
 
+                    b.HasIndex("PeliculasPeliculaId");
+
                     b.HasIndex("TemporadaId");
 
+                    b.HasIndex("VistoEn");
+
                     b.ToTable("Historial");
+                });
+
+            modelBuilder.Entity("AppAnimes.Models.Peliculas", b =>
+                {
+                    b.Property<int>("PeliculaId")
+                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AnimeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("estudio")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("nombrePelicula")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("PeliculaId");
+
+                    b.HasIndex("AnimeId");
+
+                    b.ToTable("Peliculas");
                 });
 
             modelBuilder.Entity("AppAnimes.Models.Temporada", b =>
@@ -98,6 +133,7 @@ namespace AppAnimes.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Estado")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)");
@@ -111,11 +147,13 @@ namespace AppAnimes.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TemporadaEstreno")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .IsUnicode(false)
                         .HasColumnType("varchar(200)");
 
                     b.Property<string>("Tipo")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
@@ -128,23 +166,75 @@ namespace AppAnimes.Migrations
                     b.ToTable("Temporadas");
                 });
 
+            modelBuilder.Entity("AppAnimesNuevo.Models.Paginas", b =>
+                {
+                    b.Property<int>("paginaId")
+                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("esFansub")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("esLegal")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("estaActivo")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("estaDisponible")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("nombrePagina")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("urlPagina")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("paginaId");
+
+                    b.ToTable("Paginas");
+                });
+
             modelBuilder.Entity("AppAnimes.Models.Historial", b =>
                 {
                     b.HasOne("AppAnimes.Models.Anime", "Anime")
                         .WithMany("Historials")
-                        .HasForeignKey("AnimeId")
-                        .HasConstraintName("FK_Historial_Animes")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AnimeId");
+
+                    b.HasOne("AppAnimes.Models.Peliculas", null)
+                        .WithMany("Historials")
+                        .HasForeignKey("PeliculasPeliculaId");
 
                     b.HasOne("AppAnimes.Models.Temporada", "Temporada")
                         .WithMany("Historials")
                         .HasForeignKey("TemporadaId")
-                        .HasConstraintName("FK_Historial_Temporadas")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("FK_Historial_Temporadas");
+
+                    b.HasOne("AppAnimesNuevo.Models.Paginas", "Pagina")
+                        .WithMany("Historials")
+                        .HasForeignKey("VistoEn")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Anime");
 
+                    b.Navigation("Pagina");
+
                     b.Navigation("Temporada");
+                });
+
+            modelBuilder.Entity("AppAnimes.Models.Peliculas", b =>
+                {
+                    b.HasOne("AppAnimes.Models.Anime", "Anime")
+                        .WithMany()
+                        .HasForeignKey("AnimeId");
+
+                    b.Navigation("Anime");
                 });
 
             modelBuilder.Entity("AppAnimes.Models.Temporada", b =>
@@ -165,7 +255,17 @@ namespace AppAnimes.Migrations
                     b.Navigation("Temporadas");
                 });
 
+            modelBuilder.Entity("AppAnimes.Models.Peliculas", b =>
+                {
+                    b.Navigation("Historials");
+                });
+
             modelBuilder.Entity("AppAnimes.Models.Temporada", b =>
+                {
+                    b.Navigation("Historials");
+                });
+
+            modelBuilder.Entity("AppAnimesNuevo.Models.Paginas", b =>
                 {
                     b.Navigation("Historials");
                 });

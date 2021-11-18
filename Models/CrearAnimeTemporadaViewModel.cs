@@ -14,8 +14,7 @@ namespace AppAnimes.Models
     {
 
         [DisplayName("Nombre Anime")]
-        [EsUnicoAnime]
-        public string Nombre { get; set; } // Columna Nombre TBL  Animes
+             public string Nombre { get; set; } // Columna Nombre TBL  Animes
         [DisplayName("Genero")]
         public string Genero { get; set; } // Columna Genero TBL  Animes
         [DisplayName("Nombre en Inglés")]

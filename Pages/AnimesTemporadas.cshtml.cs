@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using AppAnimesNuevo;
 using System;
+using System.Collections.Generic;
 
 namespace AppAnimes.Pages
 {
@@ -91,11 +92,12 @@ namespace AppAnimes.Pages
                        nombreEnIngles = at.Anime.NombreIngles,
                        estado = at.Estado,
                        tipo = at.Tipo,
-                       temporada_estreno = at.TemporadaEstreno
+                       temporada_estreno = at.TemporadaEstreno,
+            
 
                    }, pageIndex ?? 1, pageSize);
             }
-                
+
 
             return Page();
         }
@@ -106,29 +108,52 @@ namespace AppAnimes.Pages
             Para llamar a este metodo desde JS JQuery se llama Find omitimos OnGet.
         */
 
+
+
         public IActionResult OnGetFind(int id)
         {
-            var temporada = _context.Temporadas.Find(id);
+            Temporada temporada = _context.Temporadas.Find(id);
             //string anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).Select( a => a.Nombre).FirstOrDefault();
-            Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
-            var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
-            temporada.Anime = anime;
-            temporada.Historials = historials;
-            return new JsonResult(temporada);
+          //  Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
+            // TODO: Comprobar este codigo
+
+            //var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
+            //List<Historial> historials = _context.Historial.ToList();
+            if(temporada == null)
+            {
+               
+               return NotFound(new {Message="Season Anime not found"});
+            }
+            TemporadaJson temporadaJson = new TemporadaJson();
+            temporadaJson.TemporadaId = temporada.TemporadaId;
+            temporadaJson.animeId = temporada.AnimeId;
+            temporadaJson.nombreTemporada = temporada.NombreTemporada;
+            temporadaJson.numeroTemporada = temporada.NumeroTemporada;
+            temporadaJson.TemporadaEstreno = temporada.TemporadaEstreno;
+            temporadaJson.tipo = temporada.Tipo;
+            temporadaJson.estado = temporada.Estado;
+
+
+            // temporada.Historials = historials;
+            return new JsonResult(temporadaJson);
         }
-        public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, string paginavisto)
+
+
+
+        // BUG: This code doesn't work properly
+        public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, int paginavisto)
         {
             Temporada temporada = _context.Temporadas.Find(id);
             Historial historial = _context.Historial.Where(h => h.TemporadaId == id && h.FechaFin == null).FirstOrDefault();
 
-
+            Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
             // Si lo que esta en la base de datos antes de hacer la inserccion es visto entonces el cambio es de visto a viendo
             if (temporada.Estado.Equals("Visto"))
             {
                 // 1. Añadimos nuevo registro en historial
 
                 historial = new Historial();
-                historial.AnimeId = temporada.AnimeId;
+
                 historial.TemporadaId = temporada.TemporadaId;
                 historial.FechaInicio = DateTime.Now;
                 historial.FechaFin = null;
@@ -136,14 +161,16 @@ namespace AppAnimes.Pages
 
                 // 2. Establecemos el valor de estado a Viendo
                 temporada.Estado = estado;
+                temporada.AnimeId = anime.AnimeId;
             }
             else
             {
                 // Si no quiere decir que he terminado de ver un anime y el cambio es de viendo a visto Actualizamos FechaFin que estará en Null.
-
+                // BUG : Aqui pega exepcion 
                 historial.FechaFin = DateTime.Now;
                 // 2. Establecemos el valor de estado a Visto
                 temporada.Estado = estado;
+                historial.VistoEn = historial.Pagina.paginaId;
             }
 
 
@@ -158,6 +185,25 @@ namespace AppAnimes.Pages
         }
 
 
+
     }
 }
 
+
+class TemporadaJson 
+{
+    public int TemporadaId { get; set; }   
+    public int? numeroTemporada { get; set; }
+    public string nombreTemporada { get; set; }
+    public string estado  { get; set; }
+
+    public string tipo { get; set; }
+    public string TemporadaEstreno { get; set; }
+    public int? animeId { get; set; }
+    public TemporadaJson()
+    {
+
+    }
+
+
+}

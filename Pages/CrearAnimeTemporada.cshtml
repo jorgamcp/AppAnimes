@@ -53,7 +53,8 @@
     </div>
     <div class="form-group">
         <label asp-for="Historial.VistoEn"></label>
-        <input asp-for="Historial.VistoEn" class="form-control" />
+        @* <input asp-for="Historial.VistoEn" class="form-control" /> *@
+         <select asp-for="Historial.VistoEn" class="form-control" asp-items="ViewBag.PaginaId"></select>
         <span asp-validation-for="Historial.VistoEn" class="text-danger"></span>
     </div>
     <div class="form-group">

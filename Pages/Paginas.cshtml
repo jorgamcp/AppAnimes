@@ -1,0 +1,205 @@
+@*
+    from Microsoft Docs: The byte's low-order bit is used to represent its value.
+    A value of 1 represents true; a value of 0 represents false.
+    0 -> False
+    1 -> True
+*@
+
+@page "{id:int?}"
+@model Pages.PaginasModel
+@{
+    ViewData["Title"] = "Historial";
+    string tr_pintado = "#ef2a3dab";
+    string colorTexto = "color:white";
+
+   
+     
+}
+<h3>Páginas Registradas</h3>
+<div class="row">
+    <div class="col">
+        <a class="btn  btn-primary mr-3 text-white m-3" asp-page="AnadirPagina">Registrar nueva pagina</a>
+
+    </div>
+    <div class="col-8">
+        <div class="wrapper">
+            <div class="text">
+                <p>No Disponible en España</p>
+            </div>
+            <div class="cuadrado_color"></div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].paginaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].nombrePagina)
+            </th>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].esLegal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].esFansub)
+            </th>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].estaDisponible)
+            </th>
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].urlPagina)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(p => p.PaginasAnimePaginated[0].estaActivo)
+            </th>
+            <th colspan="2">
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.PaginasAnimePaginated.ToList().Count == 0)
+        {
+            <tr col=5>
+                <td colspan="7" class="text-center"> No Hay Páginas Registradas. Registra una nueva</td>
+            </tr>
+        }
+        else
+        {
+
+            @foreach (var registroPagina in Model.PaginasAnimePaginated)
+            {
+
+                @if (registroPagina.estaDisponible.Equals(true))
+                {
+                    tr_pintado = "";
+                    colorTexto = "";
+                }
+                else
+                {
+                    tr_pintado = "#ef2a3dab";
+                    colorTexto = "color:white";
+                }
+                <tr style="background-color:@tr_pintado;@colorTexto">
+
+                    <td>
+                        @Html.DisplayFor(m => registroPagina.paginaId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => registroPagina.nombrePagina)
+                    </td>
+                    <td>
+                        @if (registroPagina.esLegal.Equals(true))
+                        {
+                            <p>Página Legal</p>
+                        }
+                        else if (registroPagina.esLegal.Equals(false))
+                        {
+                            <i><b class="text-info text-uppercase">Página Ilegal</b></i>
+                        }
+                        else
+                        {
+                            <p>-</p>
+                        }
+                    </td>
+                    <td>
+                        @if (registroPagina.esFansub.Equals(false))
+                        {
+                            <p>No</p>
+                        }
+                        else if (registroPagina.esFansub.Equals(true))
+                        {
+                            <p>Si</p>
+                        }
+                    </td>
+                    <td>
+                        @if (registroPagina.estaDisponible.Equals(false))
+                        {
+                            <p>No</p>
+                        }
+                        else if (registroPagina.estaDisponible.Equals(true))
+                        {
+                            <p>Si</p>
+                        }
+                    </td>
+                    <td>
+                        @if (registroPagina.estaDisponible)
+                        {
+                            @Html.ActionLink(registroPagina.nombrePagina,"Redireccionar", new {@PageId = registroPagina.paginaId})
+
+                        }
+                        else
+                        {
+                            <text><i>No Disponible</i></text>
+                        }
+
+                    </td>
+                   
+                    <td>
+                        @if(registroPagina.estaActivo){
+                            <p>Si</p>
+                        }else{
+                            <p>No</p>
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" asp-page="./EditarPagina"
+                    asp-route-paginaId="@registroPagina.paginaId"
+                   >Editar</a>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-sm btn-danger" asp-page="./EliminarPagina"
+                        asp-route-PaginaId="@registroPagina.paginaId"
+                        >Eliminar</a>
+                    </td>
+                 
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.PaginasAnimePaginated.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginasAnimePaginated.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Historial" asp-route-pageIndex="@(Model.PaginasAnimePaginated.PageIndex - 1)"
+    class="btn btn-outline-primary @prevDisabled">
+    Anterior
+</a>
+
+<a asp-page="./Historial" asp-route-pageIndex="@(Model.PaginasAnimePaginated.PageIndex +1)"
+    class="btn btn-outline-primary @nextDisabled">
+    Siguiente
+</a>
+
+
+
+<style>
+    .wrapper {
+        width: 25%;
+        height: 50%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .text {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .cuadrado_color {
+        width: 100px;
+        height: 50px;
+        background-color: #ef2a3dab;
+    }
+</style>

@@ -1,0 +1,37 @@
+@page
+@model aspnetcoreapp.Pages.Animes.EditarPaginaModel
+
+<h3>Editar Pagina @ViewData["nombrePagina"]</h3>
+<form method="POST">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="pagina.paginaId" class="form-control" />
+    <div class="form-group">
+        <label asp-for="pagina.nombrePagina"></label>
+        <input asp-for="pagina.nombrePagina" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="pagina.esLegal"></label>
+        <input asp-for="pagina.esLegal" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="pagina.estaActivo"></label>
+        <input asp-for="pagina.estaActivo" class="form-control" />
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="pagina.esFansub"></label>
+        <input asp-for="pagina.esFansub" class="form-control" />
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="pagina.urlPagina"></label>
+        <input asp-for="pagina.urlPagina" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="pagina.estaDisponible"></label>
+        <input asp-for="pagina.estaDisponible" class="form-control" />
+    </div>
+    <input type="submit" value="Editar" class="btn btn-primary" />
+</form>
+
+<a asp-page="Paginas"> Volver</a>

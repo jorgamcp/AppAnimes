@@ -1,0 +1,56 @@
+@page
+@model AppAnimes.Pages.Animes.AnadirPaginaModel
+@{
+
+    ViewData["Title"] = "Añadir Pagina Anime ";
+
+}
+<h3>Añadir Pagina de Anime</h3>
+<form method="post" id="form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Pagina.nombrePagina" class="control-label"></label>
+        <input asp-for="Pagina.nombrePagina" class="form-control" />
+        <span asp-validation-for="Pagina.nombrePagina" class="text-danger"></span>
+        <span class="text-danger"> @Html.ValidationMessage("Pagina.nombrePagina")</span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pagina.esLegal"></label>
+        <input asp-for="Pagina.esLegal" class="form-control" />
+        <span asp-validation-for="Pagina.esLegal" class="text-danger"></span>
+        <span class="text-danger"> @Html.ValidationMessage("Pagina.esLegal")</span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Pagina.esFansub"></label>
+        <input asp-for="Pagina.esFansub" class="form-control" />
+        <span asp-validation-for="Pagina.esFansub" class="text-danger"></span>
+        <span class="text-danger"> @Html.ValidationMessage("Pagina.esFansub")</span>
+    </div>
+     <div class="form-group">
+        <label asp-for="Pagina.estaDisponible"></label>
+        <input asp-for="Pagina.estaDisponible" class="form-control" />
+        <span asp-validation-for="Pagina.estaDisponible" class="text-danger"></span>
+        <span class="text-danger"> @Html.ValidationMessage("Pagina.estaDisponible")</span>
+    </div>
+     <div class="form-group">
+        <label asp-for="Pagina.estaActivo"></label>
+        <input asp-for="Pagina.estaActivo" class="form-control" />
+        <span asp-validation-for="Pagina.estaActivo" class="text-danger"></span>
+        <span class="text-danger"> @Html.ValidationMessage("Pagina.estaActivo")</span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Pagina.urlPagina"></label>
+        <input asp-for="Pagina.urlPagina" class="form-control" />
+        <span asp-validation-for="Pagina.urlPagina" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+
+
+</form>
+
+
+<a asp-page="Paginas">Volver al listado</a>
