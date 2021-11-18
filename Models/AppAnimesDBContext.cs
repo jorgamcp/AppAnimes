@@ -42,11 +42,11 @@ namespace AppAnimes.Models
 
             modelBuilder.Entity<Anime>(entity =>
             {
-                // entity.HasKey(e => e.AnimeId);
+                entity.HasKey(e => e.AnimeId);
 
-                // entity.ToTable("Animes");
+                entity.ToTable("Animes");
 
-                // entity.Property(e => e.AnimeId).HasColumnName("id_anime");
+                entity.Property(e => e.AnimeId).HasColumnName("id_anime");
 
                 entity.Property(e => e.Genero)
                     .HasMaxLength(50)

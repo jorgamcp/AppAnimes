@@ -62,7 +62,7 @@ namespace AppAnimes.Pages
                          NumeroTemporada = at.NumeroTemporada,
                          NombreAnimeTemporada = a.Nombre + " " + at.NombreTemporada,
                          genero = a.Genero,
-                         nombreEnIngles = at.Anime.NombreIngles,
+                         nombreEnIngles = a.NombreIngles,
                          estado = at.Estado,
                          tipo = at.Tipo,
                          temporada_estreno = at.TemporadaEstreno
