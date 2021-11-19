@@ -67,13 +67,15 @@ namespace AppAnimes.Pages
             {
                 HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
               from historial in _context.Historial
+              join temporadas in _context.Temporadas on  historial.TemporadaId equals temporadas.TemporadaId
+    
               select new HistorialViewModel()
               {
                   idHistorial = historial.IdHistorial,
                   id_anime = historial.Anime.AnimeId,
                   id_temporada = historial.TemporadaId,
-                  NumeroTemporada = historial.Anime.Temporadas.FirstOrDefault().NumeroTemporada,
-                  NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Anime.Temporadas.FirstOrDefault().NombreTemporada,
+                  NumeroTemporada = temporadas.NumeroTemporada,
+                  NombreAnimeTemporada = historial.Anime.Nombre + " " + temporadas.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
                   VistoEn = historial.VistoEn,
@@ -90,7 +92,7 @@ namespace AppAnimes.Pages
             {
                 HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
                 from historial in _context.Historial
-
+                join temporadas in _context.Temporadas  on  historial.TemporadaId equals temporadas.TemporadaId
                 orderby historial.FechaFin
                 where historial.Anime.Nombre.Contains(searchString)  || historial.Anime.NombreIngles.Contains(searchString) // Nombre del anime o el nombre de temporada.
                 select new HistorialViewModel()
@@ -98,7 +100,7 @@ namespace AppAnimes.Pages
                     idHistorial = historial.IdHistorial,
                     id_anime = historial.Anime.AnimeId,
                     id_temporada = historial.TemporadaId,
-                    NumeroTemporada = historial.Anime.Temporadas.Single().NumeroTemporada,
+                    NumeroTemporada = temporadas.NumeroTemporada,
                     NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Anime.Temporadas.Single().NombreTemporada,
                     fechaInicio = historial.FechaInicio,
                     fechaFin = historial.FechaFin,
