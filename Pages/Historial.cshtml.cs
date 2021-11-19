@@ -45,15 +45,15 @@ namespace AppAnimes.Pages
                 HistorialAnimesTemporadasPaginated = await PaginatedList<HistorialViewModel>.CreateAsync(
               from historial in _context.Historial
               where historial.AnimeId == id
-                orderby historial.IdHistorial,historial.Temporada.NumeroTemporada ascending
+                orderby historial.IdHistorial,historial.IdHistorial ascending
               select new HistorialViewModel()
               {
                   idHistorial = historial.IdHistorial,
                   id_anime = historial.Anime.AnimeId,
                   id_temporada = historial.TemporadaId,
-                  NumeroTemporada = historial.Temporada.NumeroTemporada,
+                
                   NombreAnime = historial.Anime.Nombre,
-                  NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
+                  NombreAnimeTemporada = historial.Anime.Nombre + " " ,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
                   VistoEn = historial.VistoEn,
@@ -72,8 +72,8 @@ namespace AppAnimes.Pages
                   idHistorial = historial.IdHistorial,
                   id_anime = historial.Anime.AnimeId,
                   id_temporada = historial.TemporadaId,
-                  NumeroTemporada = historial.Temporada.NumeroTemporada,
-                  NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
+                  NumeroTemporada = historial.Anime.Temporadas.FirstOrDefault().NumeroTemporada,
+                  NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Anime.Temporadas.FirstOrDefault().NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
                   VistoEn = historial.VistoEn,
@@ -92,14 +92,14 @@ namespace AppAnimes.Pages
                 from historial in _context.Historial
 
                 orderby historial.FechaFin
-                where historial.Anime.Nombre.Contains(searchString) || historial.Temporada.NombreTemporada.Contains(searchString) || historial.Anime.NombreIngles.Contains(searchString) // Nombre del anime o el nombre de temporada.
+                where historial.Anime.Nombre.Contains(searchString)  || historial.Anime.NombreIngles.Contains(searchString) // Nombre del anime o el nombre de temporada.
                 select new HistorialViewModel()
                 {
                     idHistorial = historial.IdHistorial,
                     id_anime = historial.Anime.AnimeId,
                     id_temporada = historial.TemporadaId,
-                    NumeroTemporada = historial.Temporada.NumeroTemporada,
-                    NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
+                    NumeroTemporada = historial.Anime.Temporadas.Single().NumeroTemporada,
+                    NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Anime.Temporadas.Single().NombreTemporada,
                     fechaInicio = historial.FechaInicio,
                     fechaFin = historial.FechaFin,
                     VistoEn = historial.VistoEn,

@@ -53,7 +53,7 @@ namespace AppAnimes.Pages
             animesTemporadasPaginated = await PaginatedList<AnimesTemporadasViewModel>.CreateAsync(
                      from a in _context.Animes
                      join t in _context.Temporadas on a equals t.Anime into atemp
-                     from at in atemp.DefaultIfEmpty()
+                     from at in atemp
                      orderby at.Estado
                      select new AnimesTemporadasViewModel()
                      {
@@ -77,7 +77,7 @@ namespace AppAnimes.Pages
                 animesTemporadasPaginated = await PaginatedList<AnimesTemporadasViewModel>.CreateAsync(
                    from a in _context.Animes
                    join t in _context.Temporadas on a equals t.Anime into atemp
-                   from at in atemp.DefaultIfEmpty()
+                   from at in atemp
                    orderby at.Estado
                    where at.Anime.Nombre.Contains(searchString) || at.NombreTemporada.Contains(searchString) || a.NombreIngles.Contains(searchString)
 
@@ -111,9 +111,8 @@ namespace AppAnimes.Pages
             var temporada = _context.Temporadas.Find(id);
             //string anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).Select( a => a.Nombre).FirstOrDefault();
             Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
-            var historials = _context.Historial.Where(h => h.VistoEn != null).ToList();
             temporada.Anime = anime;
-            temporada.Historials = historials;
+           
             return new JsonResult(temporada);
         }
         public async Task<IActionResult> OnPostCambiarEstado(int? id, string estado, string paginavisto)

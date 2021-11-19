@@ -54,8 +54,9 @@ namespace AppAnimes.Pages.Animes
                                              // temporada = Temporada;
 
 
+            // animeNuevo.Temporadas.Add(temporadaInsertar);
             animeNuevo.Temporadas.Add(temporadaInsertar);
-            animeNuevo.Historials.Add(new Historial { IdHistorial = 0, AnimeId = animeNuevo.AnimeId, Temporada = temporadaInsertar, FechaInicio = DateTime.Now, FechaFin = null, VistoEn = Historial.VistoEn, AnyoVisto = null });
+            animeNuevo.Historials.Add(new Historial { IdHistorial = 0, AnimeId = animeNuevo.AnimeId, TemporadaId = temporadaInsertar.NumeroTemporada, FechaInicio = DateTime.Now, FechaFin = null, VistoEn = Historial.VistoEn, AnyoVisto = null });
 
 
             // TODO: Comprobar que el anime que se ha insertado no existe previamente en la base de datos
