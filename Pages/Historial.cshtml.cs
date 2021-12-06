@@ -56,8 +56,6 @@ namespace AppAnimes.Pages
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
-                  VistoEn = historial.VistoEn,
-                  nombrePagina = historial.Pagina.nombrePagina,
                   AnyoVisto = historial.AnyoVisto
               }, pageIndex ?? 1, pageSize);
 
@@ -77,8 +75,7 @@ namespace AppAnimes.Pages
                   NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                   fechaInicio = historial.FechaInicio,
                   fechaFin = historial.FechaFin,
-                  VistoEn = historial.VistoEn,
-                  nombrePagina = historial.Pagina.nombrePagina,
+                  VistoEn = historial.Pagina.paginaId,
                   AnyoVisto = historial.AnyoVisto
               }, pageIndex ?? 1, pageSize);
             }
@@ -104,8 +101,8 @@ namespace AppAnimes.Pages
                     NombreAnimeTemporada = historial.Anime.Nombre + " " + historial.Temporada.NombreTemporada,
                     fechaInicio = historial.FechaInicio,
                     fechaFin = historial.FechaFin,
-                    VistoEn = historial.VistoEn,
-                    AnyoVisto = historial.AnyoVisto
+                    VistoEn = historial.VistoEn
+                
 
                 }, pageIndex ?? 1, pageSize);
             }
