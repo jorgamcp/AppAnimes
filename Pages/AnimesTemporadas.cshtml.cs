@@ -7,6 +7,7 @@ using System.Linq;
 using AppAnimesNuevo;
 using System;
 using System.Collections.Generic;
+using AppAnimesNuevo.Models;
 
 namespace AppAnimes.Pages
 {
@@ -145,7 +146,7 @@ namespace AppAnimes.Pages
         {
             Temporada temporada = _context.Temporadas.Find(id);
             Historial historial = _context.Historial.Where(h => h.TemporadaId == id && h.FechaFin == null).FirstOrDefault();
-
+            Paginas pagina = _context.Paginas.Where(p => p.nombrePagina.Equals(paginavisto)).FirstOrDefault();
             Anime anime = _context.Animes.Where(a => a.AnimeId == temporada.AnimeId).FirstOrDefault();
             // Si lo que esta en la base de datos antes de hacer la inserccion es visto entonces el cambio es de visto a viendo
             if (temporada.Estado.Equals("Visto"))
@@ -168,6 +169,8 @@ namespace AppAnimes.Pages
                 // Si no quiere decir que he terminado de ver un anime y el cambio es de viendo a visto Actualizamos FechaFin que estará en Null.
                 // BUG : Aqui pega exepcion 
                 historial.FechaFin = DateTime.Now;
+ 
+                
                 // 2. Establecemos el valor de estado a Visto
                 temporada.Estado = estado;
                 historial.VistoEn = historial.Pagina.paginaId;
