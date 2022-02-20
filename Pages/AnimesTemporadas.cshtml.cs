@@ -42,7 +42,7 @@ namespace AppAnimes.Pages
 
         public async Task<IActionResult> OnGetAsync(int? pageIndex)
         {
-            int pageSize = 6; // Tamaño maximo  de filas que tiene la tabla.
+            int pageSize = 10; // Tamaño maximo  de filas que tiene la tabla.
             // si me introducen un pageindex < 1 redirigimos al index de AnimesTemporadas
             if (pageIndex <= 0)
             {

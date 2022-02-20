@@ -84,7 +84,7 @@ namespace AppAnimes.Pages
             }
 
 
-
+         
 
 
             // BUSQUEDA
